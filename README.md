@@ -11,15 +11,15 @@ fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ic
 - PlusのLTCGI依存: `at.pimaker.ltcgi >=1.6.3 <1.7.0`
 - Quest/Android、URP/HDRP、Deferredは対象外
 
-ローカルRelease CandidateはUnity 2022.3.22f1 + VRChat SDK 3.10.4でfShader EditMode 73/73件に合格しています。公開前にGitHub認証とPages/Releaseの到達性を確定してください。
+Unity 2022.3.22f1 + VRChat SDK 3.10.4でfShader EditMode 73/73件に合格し、GitHub Public ReleaseとVPM一覧を公開済みです。
 
 ## 導入
 
-公開後のVCCリポジトリURLは次を予定しています。
+公開VCCリポジトリURL:
 
 `https://fuyutsukinatsuki.github.io/fShader/index.json`
 
-現在リポジトリがPrivateの間は一般のVCCから取得できません。`Tools/Release/Build-Packages.ps1`で生成したZIPをVCCのUser PackageまたはUnity Package Managerのローカルパッケージとして検証してください。
+VCCのSettings > Packages > Add Repositoryへ上記URLを追加してください。公開Release ZIPと`index.json`は外部URLから取得確認済みです。
 
 Liteは`com.fshader.core`、Plusは`com.fshader.plus`です。PlusはCoreとLTCGI 1.6.xを必要とし、VPM経由では依存関係を自動解決します。
 
