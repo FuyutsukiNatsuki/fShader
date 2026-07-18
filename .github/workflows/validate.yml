@@ -1,0 +1,22 @@
+name: Validate Release Metadata
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  package-metadata:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build local release archives and listing
+        shell: pwsh
+        run: |
+          ./Tools/Release/Build-Packages.ps1
+          ./Tools/Release/Build-BoothPackages.ps1
+      - name: Upload validation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fShader-packages
+          path: Release/

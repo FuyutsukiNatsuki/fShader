@@ -1,0 +1,18 @@
+{
+    "generatedUtc": "2026-07-18T11:41:14.4657121Z",
+    "fShaderVersion": "0.6.1-p5.1",
+    "unityVersion": "2022.3.22f1",
+    "buildTarget": "StandaloneWindows64",
+    "colorSpace": "Linear",
+    "stereoRenderingPathRaw": 1,
+    "graphicsDevice": "NVIDIA GeForce RTX 3060",
+    "graphicsApi": "Direct3D11",
+    "graphicsMemoryMB": 12113,
+    "processor": "AMD Ryzen 7 8700F 8-Core Processor ",
+    "qualityLevel": "VRC High",
+    "scene": "Assets/fShaderDevelopment/P5/Scenes/fShaderP5QA.unity",
+    "overview": "Assets/fShaderDevelopment/P5/Golden/P5_Overview.png",
+    "refractionLtcgi": "Assets/fShaderDevelopment/P5/Golden/P5_Refraction_LTCGI.png",
+    "refractionAB": "Assets/fShaderDevelopment/P5/Golden/P5_Refraction_AB.png",
+    "note": "Editor golden images are deterministic desktop/photo-camera baselines. Validate SPSI, Multi Pass, Mirror and VRChat Photo Camera in Build & Test."
+}

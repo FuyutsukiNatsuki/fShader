@@ -1,0 +1,52 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate matching package versions
+        shell: pwsh
+        run: ./Tools/Release/Build-Packages.ps1
+
+  release:
+    needs: validate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [com.fshader.core, com.fshader.plus]
+    env:
+      packagePath: Packages/${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read package version
+        id: version
+        shell: pwsh
+        run: |
+          $manifest = Get-Content -Raw '${{ env.packagePath }}/package.json' | ConvertFrom-Json
+          "value=$($manifest.version)" >> $env:GITHUB_OUTPUT
+      - name: Define release names
+        shell: bash
+        run: |
+          echo "zipFile=${{ matrix.package }}-${{ steps.version.outputs.value }}.zip" >> "$GITHUB_ENV"
+          echo "releaseTag=${{ matrix.package }}-${{ steps.version.outputs.value }}" >> "$GITHUB_ENV"
+      - name: Create package ZIP
+        working-directory: ${{ env.packagePath }}
+        shell: bash
+        run: zip -r "${{ github.workspace }}/${{ env.zipFile }}" .
+      - name: Publish package release
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        with:
+          tag_name: ${{ env.releaseTag }}
+          name: ${{ matrix.package }} ${{ steps.version.outputs.value }}
+          generate_release_notes: true
+          files: |
+            ${{ env.zipFile }}
+            ${{ env.packagePath }}/package.json

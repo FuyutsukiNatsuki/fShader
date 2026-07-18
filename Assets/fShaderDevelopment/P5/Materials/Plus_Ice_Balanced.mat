@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Plus_Ice_Balanced
+  m_Shader: {fileID: 4800000, guid: ca485cee3698c694b80fa9c5319ad0e4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - FSHADER_BOX_PROJECTION
+  - FSHADER_ICE_BACKLIGHT
+  m_InvalidKeywords:
+  - _FSBOXPROJECTION_ON
+  - _FSICEBACKLIGHT_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ARMHMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CrackMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrostMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOStrength: 1
+    - _AbsorptionStrength: 0.75
+    - _BackLightStrength: 0.65
+    - _BackLightThickness: 0.75
+    - _CrackDepth: 0.75
+    - _CrackGlowStrength: 0.35
+    - _CrackParallax: 0.018
+    - _FSBoxProjection: 1
+    - _FSDebugView: 0
+    - _FSEdition: 1
+    - _FSFeatureFlags: 0
+    - _FSIceBackLight: 1
+    - _FSIceCracks: 0
+    - _FSIceFrost: 0
+    - _FSIceSparkle: 0
+    - _FSMode: 1
+    - _FSVersion: 0.5
+    - _FSVertexColor: 0
+    - _FrostEdge: 0.25
+    - _FrostScaleA: 1
+    - _FrostScaleB: 3.2
+    - _FrostStrength: 0.8
+    - _HeightScale: 0
+    - _IOR: 1.31
+    - _IceThickness: 0.65
+    - _Metallic: 0
+    - _NormalScale: 0.8
+    - _Opacity: 1
+    - _ReflectionStrength: 0.9
+    - _Roughness: 0.28
+    - _SparkleDensity: 42
+    - _SparkleDistance: 18
+    - _SparkleSize: 0.22
+    - _SparkleStrength: 0.6
+    m_Colors:
+    - _AbsorptionColor: {r: 0.21999997, g: 0.58, b: 0.82, a: 1}
+    - _BackLightColor: {r: 0.34999996, g: 0.82, b: 1, a: 1}
+    - _BaseColor: {r: 0.52, g: 0.82, b: 1, a: 1}
+    - _CrackGlowColor: {r: 0.24999997, g: 0.8, b: 1, a: 1}
+    - _FrostColor: {r: 0.86, g: 0.96, b: 1, a: 0.8}
+    - _IceColor: {r: 0.72, g: 0.92, b: 1, a: 1}
+  m_BuildTextureStacks: []

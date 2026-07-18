@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lite Water Ocean
+  m_Shader: {fileID: 4800000, guid: c8c6c7f1f2473eb4ebce927168f7f0b4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - FSHADER_WATER_FOAM
+  - FSHADER_WATER_WAVE_NORMAL
+  m_InvalidKeywords:
+  - _FSWATERWAVENORMAL_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ARMHMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 24eb29142959482a95a1eb9d9459f7f1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamMap:
+        m_Texture: {fileID: 2800000, guid: 61f491dc8ad04647a23943d7091dda27, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveNormalMap:
+        m_Texture: {fileID: 2800000, guid: 879d6ec8d8c0452ebd9938c82f087ff0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOStrength: 1
+    - _FSDebugView: 0
+    - _FSEdition: 0
+    - _FSFeatureFlags: 0
+    - _FSMode: 0
+    - _FSVersion: 0.3
+    - _FSVertexColor: 0
+    - _FSWaterFoam: 1
+    - _FSWaterVertexWaves: 0
+    - _FSWaterWaveNormal: 1
+    - _FoamStrength: 0.55
+    - _FresnelStrength: 0.8
+    - _HeightScale: 0
+    - _IOR: 1.333
+    - _Metallic: 0
+    - _NormalScale: 1
+    - _Opacity: 1
+    - _ReflectionStrength: 0.65
+    - _RefractionStrength: 0.12
+    - _Roughness: 0.16
+    - _WaveAmplitude: 0.04
+    - _WaveLength: 2.5
+    - _WaveNormalScale: 0.65
+    m_Colors:
+    - _BaseColor: {r: 0.34999996, g: 0.75, b: 0.9, a: 0.72}
+    - _DeepColor: {r: 0.015, g: 0.15999997, b: 0.31999996, a: 1}
+    - _ShallowColor: {r: 0.27999997, g: 0.8, b: 0.92, a: 1}
+    - _WaveDirection: {r: 1, g: 0.35, b: 0, a: 0}
+    - _WaveSpeedA: {r: 0.035, g: 0.02, b: 0, a: 0}
+    - _WaveSpeedB: {r: -0.02, g: 0.03, b: 0, a: 0}
+  m_BuildTextureStacks: []

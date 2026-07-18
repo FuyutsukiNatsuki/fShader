@@ -1,0 +1,21 @@
+name: Build Booth Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  booth:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build UnityPackage and Booth ZIP
+        shell: pwsh
+        run: ./Tools/Release/Build-BoothPackages.ps1
+      - name: Upload Booth artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fShader-Booth
+          path: |
+            Release/fShader-*.unitypackage
+            Release/fShader-*-Booth.zip
+            Release/BOOTH_SHA256SUMS.txt

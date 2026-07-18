@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Plus_Glass_Balanced
+  m_Shader: {fileID: 4800000, guid: 60f9fd6cd46587644a7732dc17c251ea, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - FSHADER_BOX_PROJECTION
+  m_InvalidKeywords:
+  - _FSBOXPROJECTION_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ARMHMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CondensationMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CondensationNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOStrength: 1
+    - _AbsorptionStrength: 0.45
+    - _CondensationAmount: 0.75
+    - _CondensationFadeDistance: 22
+    - _CondensationNormalScale: 0.85
+    - _CondensationOpacity: 0.18
+    - _CondensationRoughness: 0.86
+    - _DropletStrength: 1
+    - _FSBoxProjection: 1
+    - _FSDebugView: 0
+    - _FSEdition: 1
+    - _FSFeatureFlags: 0
+    - _FSGlassCondensation: 0
+    - _FSGlassDropletNormal: 0
+    - _FSMode: 2
+    - _FSScreenRefraction: 0
+    - _FSVersion: 0.5
+    - _FSVertexColor: 0
+    - _GlassThickness: 0.3
+    - _HeightScale: 0
+    - _IOR: 1.5
+    - _LTCGI: 0
+    - _LTCGICondensationDiffuse: 0.5
+    - _LTCGIDiffuseStrength: 0.45
+    - _LTCGIMaxBrightness: 2
+    - _LTCGISpecularStrength: 0.9
+    - _Metallic: 0
+    - _MicroFogStrength: 0.65
+    - _NormalScale: 0.35
+    - _Opacity: 0.28
+    - _ReflectionStrength: 0.9
+    - _RefractionStrength: 0.14
+    - _Roughness: 0.09
+    - _TrailStrength: 0.75
+    m_Colors:
+    - _AbsorptionColor: {r: 0.54999995, g: 0.86, b: 0.92, a: 1}
+    - _BaseColor: {r: 0.7, g: 0.9, b: 1, a: 0.28}
+    - _CondensationColor: {r: 0.82, g: 0.95, b: 1, a: 0.35}
+    - _DropletSpeed: {r: 0, g: -0.018, b: 0, a: -0.007}
+    - _TransmissionColor: {r: 0.9, g: 0.97999996, b: 1, a: 1}
+  m_BuildTextureStacks: []

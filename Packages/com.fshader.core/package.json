@@ -1,0 +1,35 @@
+{
+  "name": "com.fshader.core",
+  "displayName": "fShader Lite (Core)",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Lightweight water, ice, and glass shaders for VRChat worlds using Unity's Built-in Render Pipeline.",
+  "keywords": [
+    "vrchat",
+    "shader",
+    "water",
+    "ice",
+    "glass"
+  ],
+  "author": {
+    "name": "FuyutsukiNatsuki",
+    "email": "FuyutsukiNatsuki@users.noreply.github.com",
+    "url": "https://github.com/FuyutsukiNatsuki"
+  },
+  "license": "fShader License 1.0 - see fSHaderLicense.md",
+  "documentationUrl": "https://github.com/FuyutsukiNatsuki/fShader/blob/main/Packages/com.fshader.core/Documentation~/USER_MANUAL_JA.md",
+  "changelogUrl": "https://github.com/FuyutsukiNatsuki/fShader/blob/main/Packages/com.fshader.core/CHANGELOG.md",
+  "licensesUrl": "https://github.com/FuyutsukiNatsuki/fShader/blob/main/fSHaderLicense.md",
+  "samples": [
+    {
+      "displayName": "Benchmark Documentation",
+      "description": "Benchmark procedure, QA runbook, and result records for fShader.",
+      "path": "Samples~/Benchmark"
+    },
+    {
+      "displayName": "fShader Lite Gallery",
+      "description": "Lite starter materials, gallery scene, and tileable Water, Ice, and Glass textures.",
+      "path": "Samples~/Gallery"
+    }
+  ]
+}

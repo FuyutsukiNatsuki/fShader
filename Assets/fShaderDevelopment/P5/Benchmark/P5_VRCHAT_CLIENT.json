@@ -1,0 +1,19 @@
+{
+  "generatedLocal": "2026-07-18T19:56:24+09:00",
+  "vrchatClient": "2026.2.3p3 build 1867",
+  "mode": "Build & Test / Local Test",
+  "worldAssetBundle": "fShaderP5QA",
+  "enteredLocalRoom": true,
+  "assetBundleLoaded": true,
+  "worldLoaded": true,
+  "clientResponding": true,
+  "fShaderShaderErrors": 0,
+  "udonExecutionErrors": 0,
+  "ltcgiErrors": 0,
+  "visualInspection": "Client left open for user inspection; automated window capture confirmed the QA world rendered.",
+  "notes": [
+    "Obfuscated NullReferenceException messages occurred only during VRChat mirror warmup and avatar initialization at 19:53:29-30, contained no fShader/LTCGI/Udon identifiers, and did not continue after world load.",
+    "One duplicate avatar expression parameter error belongs to the local avatar and is unrelated to the world or fShader.",
+    "This desktop Local Test is not an HMD SPSI/Multi Pass performance measurement."
+  ]
+}

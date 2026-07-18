@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lite Ice Frosted
+  m_Shader: {fileID: 4800000, guid: 686c2b004e300c74fa7e764aa008b3e6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - FSHADER_ICE_CRACKS
+  - FSHADER_ICE_FROST
+  - FSHADER_ICE_SCATTER
+  m_InvalidKeywords:
+  - _FSICESCATTER_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ARMHMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: beacf3c388994f3b97b26b1a77b09816, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CrackMap:
+        m_Texture: {fileID: 2800000, guid: 0db98149c2444408ac9909f583cb9929, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrostMap:
+        m_Texture: {fileID: 2800000, guid: 7790d68fae464f398d8f6c8e18b1b2f8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 598b86cf84cd4a00bed6c40d88259fc7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOStrength: 1
+    - _CrackDepth: 0.8
+    - _FSDebugView: 0
+    - _FSEdition: 0
+    - _FSFeatureFlags: 0
+    - _FSIceCracks: 1
+    - _FSIceFrost: 1
+    - _FSIceScatter: 1
+    - _FSIceSparkle: 0
+    - _FSMode: 1
+    - _FSVersion: 0.3
+    - _FSVertexColor: 0
+    - _FrostStrength: 0.65
+    - _HeightScale: 0
+    - _IOR: 1.31
+    - _IceThickness: 0.55
+    - _Metallic: 0
+    - _NormalScale: 1
+    - _Opacity: 1
+    - _ReflectionStrength: 0.65
+    - _Roughness: 0.42
+    - _ScatterStrength: 0.35
+    - _SparkleDistance: 8
+    - _SparkleStrength: 0.25
+    m_Colors:
+    - _BaseColor: {r: 0.75, g: 0.92, b: 1, a: 1}
+    - _IceColor: {r: 0.45, g: 0.78, b: 1, a: 1}
+    - _ScatterColor: {r: 0.19999996, g: 0.65, b: 1, a: 1}
+  m_BuildTextureStacks: []

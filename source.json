@@ -1,0 +1,18 @@
+{
+  "name": "fShader Packages",
+  "id": "com.fshader.packages",
+  "url": "https://fuyutsukinatsuki.github.io/fShader/index.json",
+  "author": {
+    "email": "FuyutsukiNatsuki@users.noreply.github.com",
+    "name": "FuyutsukiNatsuki",
+    "url": "https://github.com/FuyutsukiNatsuki"
+  },
+  "description": "fShader Lite and Plus packages for VRChat Worlds on Unity Built-in Render Pipeline.",
+  "infoLink": {
+    "url": "https://github.com/FuyutsukiNatsuki/fShader",
+    "text": "View fShader on GitHub"
+  },
+  "githubRepos": [
+    "FuyutsukiNatsuki/fShader"
+  ]
+}

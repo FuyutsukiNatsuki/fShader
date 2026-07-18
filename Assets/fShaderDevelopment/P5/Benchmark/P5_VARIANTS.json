@@ -1,0 +1,94 @@
+{
+    "generatedUtc": "2026-07-18T10:40:39.6664274Z",
+    "unityVersion": "2022.3.22f1",
+    "buildTarget": "StandaloneWindows64",
+    "developmentBuild": false,
+    "totalInput": 1472,
+    "totalOutput": 1472,
+    "removedDebug": 0,
+    "removedInvalidDependency": 0,
+    "preservationPolicy": "Preserve stereo, fog, lightmap, instancing, mode, screen-refraction and LTCGI variants. Strip shipping debug variants and glass droplet-normal variants without condensation only.",
+    "entries": [
+        {
+            "shader": "fShader/Lite/Glass",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 96,
+            "output": 96,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "Hidden/fShader/Plus/WaterScreenRefraction",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 192,
+            "output": 192,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Plus/Glass",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 288,
+            "output": 288,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Lite/Ice",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 192,
+            "output": 192,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Lite/Ice",
+            "pass": "SHADOWCASTER",
+            "passType": "ShadowCaster",
+            "input": 32,
+            "output": 32,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "Hidden/fShader/Plus/GlassScreenRefraction",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 192,
+            "output": 192,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Lite/Water",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 96,
+            "output": 96,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Plus/Ice",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 192,
+            "output": 192,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        },
+        {
+            "shader": "fShader/Plus/Water",
+            "pass": "FORWARD",
+            "passType": "ForwardBase",
+            "input": 192,
+            "output": 192,
+            "removedDebug": 0,
+            "removedInvalidDependency": 0
+        }
+    ]
+}
