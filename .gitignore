@@ -47,3 +47,6 @@ Packages/*
 !Packages/com.fshader.plus/
 
 sysinfo.txt
+
+# Local AI handoff notes
+/HANDOFF*.md
