@@ -2,9 +2,9 @@ name: Build VPM Listing
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: [source.json, Website/**, .github/workflows/build-listing.yml]
+  workflow_run:
+    workflows: [Build Release]
+    types: [completed]
   release:
     types: [published, created, edited, unpublished, deleted, released]
 
@@ -23,6 +23,7 @@ env:
 
 jobs:
   build-listing:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
