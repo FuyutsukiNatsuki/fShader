@@ -53,6 +53,7 @@ Shader "Hidden/fShader/Plus/IceScreenRefraction"
         [Toggle] _FSVertexColor ("Use Vertex Color", Float) = 0
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
+        [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
         [HideInInspector] _FSMode ("fShader Mode", Float) = 1

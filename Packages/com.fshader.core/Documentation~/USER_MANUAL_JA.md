@@ -1,8 +1,8 @@
-# fShader 1.1.0 User Manual
+# fShader 1.2.0 User Manual
 
 ## 1. 対応環境
 
-fShader 1.1.0はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
+fShader 1.2.0はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
 
 Quest/Android、URP/HDRP、Deferred Rendering、VRChat Avatarは正式対象外です。PlusはLTCGI 1.6.3以上1.7.0未満を必要とします。
 
@@ -59,8 +59,8 @@ IceはFrost、Crack、Fake Subsurface/Back Light、Sparkleを備えます。1.0.
 
 冷気煙はShader単体ではなくParticleSystemを生成します。
 
-1. IceのMeshRendererを選択します。
-2. Liteは`Tools > fShader > Create Cold Mist Lite for Selected Ice`、Plusは`Create Cold Mist Plus for Selected Ice`を実行します。
+1. シーンでIceのGameObject（MeshRendererとMeshFilterを持つもの）を選択します。
+2. Liteは`Tools > fShader > Create Cold Mist Lite for Selected Ice`、Plusは`Create Cold Mist Plus for Selected Ice`を実行します。ボタンは選択中のIce GameObjectに対してそのままウィザードを実行します。
 3. 生成されたParticleSystemの範囲と色を確認します。
 
 Liteは最大24粒子、Plusは最大64粒子が既定です。生成物にruntime MonoBehaviourは残りません。
@@ -79,27 +79,37 @@ Standardは透過や波、霜、ひび、結露、画面屈折を持たない不
 
 Plus StandardはBox Projected Reflection ProbeとLTCGI（Diffuse/Specular/Max Brightness）に対応します。Lite Standardはどちらも持たない最軽量構成です。
 
-## 9. Plus LTCGI
+## 9. 描画とレンダーキュー
 
-Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.1.0では非対応です。
+Inspectorの「設定 / Settings」タブに「描画 / レンダーキュー (Rendering / Render Queue)」があります。既定ではレンダーキューをModeごとに自動決定し、不透明（Standardや既定のIce）は2000、透過（Water、Glass、Transparent Ice）は3000を使います。
+
+「カスタムレンダーキュー (Custom Render Queue)」をONにすると、0–5000の絶対値を手動で指定できます。値の小さい面が先、大きい面が後に描画されるため、重なり合う透明面の前後関係を手作業で決める主要な手段になります（第15節の既知制約を参照）。
+
+Water/Glassには「透過ZWrite（重なり対策） (Transparent ZWrite)」トグル（既定OFF）があります。ONにすると透明面が深度を書き込み、重なった透明面どうしの前後ソートが安定します。ただし透明面が重なる箇所のブレンドが変わり、奥の面が隠れることがあります。常に望ましいわけではないトレードオフの手段です。
+
+## 10. Plus LTCGI
+
+Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.2.0では非対応です。
 
 LTCGIとScreen Refraction、Water 4 Wavesを同時に使う構成はHeavyです。まず個別にON/OFF測定してください。詳しくはPlusパッケージの`Documentation~/PLUS_GUIDE_JA.md`を参照してください。
 
-## 10. Samples
+## 11. Samples
 
 Package ManagerでCoreの`Gallery Textures`をImportすると、Water/Ice/Glass用テクスチャ、Lite Starter Materials、Gallery Sceneが`Assets/Samples`へコピーされます。Plusの`Plus Starter Materials`はPlus用MaterialとSceneを含みます。
 
 SamplesはユーザーAssetとしてコピーされるため、パッケージ削除時に自動削除されません。不要なら`Assets/Samples/fShader...`を手動で削除してください。
 
-## 11. テンプレート
+## 12. テンプレート
 
-Inspector上部のLite/Plusとモード切替の直下に「テンプレート / Templates」折り畳みがあります。LiteとPlusそれぞれの行に、水・氷・ガラス・標準のワンクリックボタンが並びます。
+Inspector上部のタブバーが「設定 / Settings」と「テンプレート / Templates」に分かれ、テンプレートは専用の「テンプレート」タブへ移動しました。タブには従来のワンクリック テンプレートに加えて、「ユーザーテンプレート (User Templates)」一覧と「作成 / 読み込み (Create / Import)」欄があります。
 
-ボタンを押すと、対応するEditionとモードのShaderへ切り替え、調整済みの機能トグルとPBR初期値を適用し、`fShader Lite Gallery` Sampleの対応Textureを割り当てます。Sampleが未Importの場合はPackage Managerから自動でImportしてからTextureを割り当てます。
+ワンクリック テンプレートは、LiteとPlusそれぞれの行に水・氷・ガラス・標準のボタンが並びます。ボタンを押すと、対応するEditionとモードのShaderへ切り替え、調整済みの機能トグルとPBR初期値を適用し、`fShader Lite Gallery` Sampleの対応Textureを割り当てます。Sampleが未Importの場合はPackage Managerから自動でImportしてからTextureを割り当てます。
 
 標準（Standard）テンプレートは専用のTexture設定がないためTextureを割り当てず、粗さ・金属度・反射の妥当な初期値だけを設定します。Sampleのテクスチャを手動で割り当てる代わりに、ワンクリックで整った見た目を得られます。
 
-## 12. 性能確認
+「作成 / 読み込み」では、現在のMaterialをテンプレートとして書き出せます。テンプレートはJSONとして`Assets/fShader Templates`へ保存され、保存済みのテンプレートJSONを読み込んで別Materialへ適用できます。Textureの参照はGUIDで保持するため、同一プロジェクト内なら書き出したTextureも復元します。別プロジェクトへ持ち込んだ場合は名前検索によるフォールバックになります。
+
+## 13. 性能確認
 
 - 一度に変更する条件は1つだけにします。
 - Refraction、LTCGI、Mirrorを別々にOFF/ON比較します。
@@ -108,7 +118,7 @@ Inspector上部のLite/Plusとモード切替の直下に「テンプレート /
 
 Pico 4 / RTX 3060 / 90 HzのP5.1測定では60–63 FPS、全地点GPU表示15 msでした。表示精度上、Water/Glass Refraction ON固有のGPU増加は検出されませんでしたが、コスト0とは断定しません。
 
-## 13. アンインストール
+## 14. アンインストール
 
 1. fShader MaterialをStandard等へ変更するか、使用Objectを削除します。
 2. Plusを先に削除し、その後Coreを削除します。
@@ -118,9 +128,10 @@ Pico 4 / RTX 3060 / 90 HzのP5.1測定では60–63 FPS、全地点GPU表示15 m
 
 fShaderはruntime MonoBehaviourを追加しません。Cold Mistも標準ParticleSystemだけで動作します。
 
-## 14. 既知制約
+## 15. 既知制約
 
 - PC VR World専用。Quest/Androidは非対応。
+- 複数の透明fShader面（Water/Glass/Transparent Ice）が重なると、描画順の都合で一方が抜けたり、前後が入れ替わって見える場合があります。これはBRP Forward + アルファブレンドの原理的な制約で、修正可能なバグではありません（ピクセル単位の正確なソートには深度プリパスが必要で、対象外です）。第9節の「描画とレンダーキュー」でカスタムレンダーキューにより手動整列するか、Water/GlassのTransparent ZWriteをONにして緩和してください。
 - Screen RefractionはBRP GrabPassで、透明ソートと多重面に制約があります。
 - Reflection Probe未配置では反射が弱い、または黒く見える場合があります。
 - 頂点波はメッシュ密度依存。

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 - 2026-07-22
+
+- Added the per-material Render Queue override and an optional Transparent ZWrite toggle to Plus Water and Glass (and their Screen Refraction variants) for hand-tuning overlapping transparency.
+- Moved Templates into a dedicated Inspector tab with user template export/import.
+- Fixed the Plus Ice "Create Cold Mist Plus" button.
+- Updated the Core dependency to 1.2.0.
+
 ## 1.1.0 - 2026-07-21
 
 - Added an opaque Plus Standard mode (PBR only) with Box Projected reflection and full LTCGI v2 support.

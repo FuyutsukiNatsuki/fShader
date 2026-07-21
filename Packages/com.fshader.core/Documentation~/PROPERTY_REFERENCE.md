@@ -1,4 +1,4 @@
-# fShader 1.1.0 Shader Property Reference
+# fShader 1.2.0 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
@@ -29,6 +29,9 @@ Screen Refraction ON時はInspectorが`Hidden/fShader/Lite/GlassScreenRefraction
 | `_IOR` | 1–2.5 | Fresnel/屈折近似用IOR |
 | `_FSVertexColor` | Toggle | Mode別Vertex Color契約を有効化 |
 | `_FSDebugView` | Float | Inspector管理のDebug View |
+| `_FSQueueOverride` | Toggle | 全fShader Shaderに存在。カスタムレンダーキュー有効化。OFF時はMode別の自動キュー（不透明2000 / 透過3000）、ON時はMaterialのRender Queueを絶対値（0–5000）で使用 |
+
+レンダーキューは既定でMode別に自動決定され（不透明2000 / 透過3000）、`_FSQueueOverride`をONにした時だけMaterialのRender Queueを絶対値として使用します。
 
 ## Water
 
@@ -55,6 +58,7 @@ Screen Refraction ON時はInspectorが`Hidden/fShader/Lite/GlassScreenRefraction
 | `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
 | `_FSScreenRefraction`, `_RefractionStrength` | Plus | Transparent Ice用の任意Screen Refraction |
 | `_FSScreenRefraction` | Plus | Heavy Screen Refraction切替 |
+| `_FSTransparentZWrite` | 両方 | 透過ZWrite（重なり対策）。既定OFF。ONで透明面が深度を書き込み前後ソートが安定するが、重なり部のブレンドが変わる |
 
 Water Vertex ColorはR=Foam、G=Wave Weight、B=Depth Tint、A=Opacityです。
 
@@ -98,6 +102,7 @@ Ice Vertex ColorはR=Frost、G=Crack、B=Sparkle、A=Thicknessです。
 | `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
 | `_FSScreenRefraction`, `_RefractionStrength` | Plus | Transparent Ice用の任意Screen Refraction |
 | `_FSScreenRefraction` | Lite/Plus | Heavy Hidden Shader切替 |
+| `_FSTransparentZWrite` | 両方 | 透過ZWrite（重なり対策）。既定OFF。ONで透明面が深度を書き込み前後ソートが安定するが、重なり部のブレンドが変わる |
 
 Glass Vertex ColorはR=Condensation、G=Thickness、B=Variation、A=Opacityです。
 
@@ -139,4 +144,4 @@ Shader名は`fShader/Effects/ColdMist`と`fShader/Effects/ColdMistPlus`です。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.1.0にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.2.0にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。

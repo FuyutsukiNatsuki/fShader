@@ -24,6 +24,10 @@
 /Assets/_pi_.meta
 /Assets/XR.meta
 
+# User template storage created by the fShader template export/import feature
+/Assets/fShader Templates/
+/Assets/fShader Templates.meta
+
 /.codex-*
 
 .vs/

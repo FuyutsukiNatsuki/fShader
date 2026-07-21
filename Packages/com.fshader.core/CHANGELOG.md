@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 - 2026-07-22
+
+- Added a per-material Render Queue override (Rendering section): the automatic per-mode queue (opaque 2000 / transparent 3000) is used until Custom Render Queue is enabled, then any absolute value can be set to hand-order overlapping transparency.
+- Added an optional Transparent ZWrite toggle for Water and Glass to help depth-sort overlapping transparent surfaces, with guidance on its trade-offs.
+- Moved Templates into their own Inspector tab and added export/import of user templates as JSON under Assets/fShader Templates (textures referenced by GUID within the project).
+- Fixed the "Create Cold Mist for Selected Ice" button, which silently did nothing when the Ice object was not the active selection; it now runs the wizard directly and reports when no valid Ice object is selected.
+
 ## 1.1.0 - 2026-07-21
 
 - Added a new opaque Standard mode (PBR textures, reflection, and lighting only, with no transparency or mode-specific effects) alongside Water, Ice, and Glass.

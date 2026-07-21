@@ -11,6 +11,8 @@ namespace fShader.Editor
         private const string SurfaceFoldoutKey = "fShader.Inspector.Surface";
         private const string PBRFoldoutKey = "fShader.Inspector.PBR";
         private const string DiagnosticsFoldoutKey = "fShader.Inspector.Diagnostics";
+        private const string RenderingFoldoutKey = "fShader.Inspector.Rendering";
+        private const string TabKey = "fShader.Inspector.Tab";
 
         private static bool japanese;
 
@@ -37,8 +39,15 @@ namespace fShader.Editor
                 return;
             }
 
+            int tab = DrawTabBar();
+            if (tab == 1)
+            {
+                fShaderTemplateLibrary.DrawTemplateTab(materialEditor, japanese);
+                DrawVersionFooter(firstMaterial);
+                return;
+            }
+
             DrawVariantToolbar(materialEditor, ref properties, ref firstMaterial, edition, mode);
-            fShaderTemplateLibrary.DrawSection(materialEditor, japanese);
 
             EditorGUI.BeginChangeCheck();
             DrawSurface(materialEditor, properties);
@@ -46,6 +55,7 @@ namespace fShader.Editor
             fShaderP2Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
             fShaderP3Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
             fShaderP4Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
+            DrawRendering(materialEditor, firstMaterial);
             DrawDiagnostics(materialEditor, properties, firstMaterial);
             materialEditor.EnableInstancingField();
             if (EditorGUI.EndChangeCheck())
@@ -58,12 +68,30 @@ namespace fShader.Editor
                 SyncKeywords(materialEditor.targets.OfType<Material>().ToArray());
             }
 
+            DrawVersionFooter(firstMaterial);
+        }
+
+        private static int DrawTabBar()
+        {
+            int current = Mathf.Clamp(EditorPrefs.GetInt(TabKey, 0), 0, 1);
+            string[] labels = japanese ? new[] { "設定", "テンプレート" } : new[] { "Settings", "Templates" };
+            int next = GUILayout.Toolbar(current, labels);
+            if (next != current) EditorPrefs.SetInt(TabKey, next);
+            EditorGUILayout.Space(4f);
+            return next;
+        }
+
+        private static void DrawVersionFooter(Material material)
+        {
             EditorGUILayout.Space(8f);
             using (new EditorGUI.DisabledScope(true))
             {
                 EditorGUILayout.TextField(T("バージョン", "Version"), fShaderShaderCatalog.Version);
                 EditorGUILayout.TextField(T("描画経路", "Render Path"), "BRP ForwardBase / 1 pass");
-                EditorGUILayout.IntField(T("Shaderパス総数", "Total Shader Passes"), firstMaterial.shader.passCount);
+                if (material.shader != null)
+                {
+                    EditorGUILayout.IntField(T("Shaderパス総数", "Total Shader Passes"), material.shader.passCount);
+                }
             }
         }
 
@@ -180,6 +208,93 @@ namespace fShader.Editor
             if (GUILayout.Button(T("ARMHパッカーを開く", "Open ARMH Texture Packer")))
             {
                 fShaderARMHPackerWindow.ShowWindow();
+            }
+            EditorGUILayout.Space(3f);
+        }
+
+        private static void DrawRendering(MaterialEditor editor, Material material)
+        {
+            bool expanded = DrawFoldout(RenderingFoldoutKey, T("描画 / レンダーキュー", "Rendering / Render Queue"), false);
+            if (!expanded)
+            {
+                return;
+            }
+
+            Material[] materials = editor.targets.OfType<Material>().ToArray();
+
+            bool overridden = fShaderIceSurfaceState.IsQueueOverridden(material);
+            EditorGUI.BeginChangeCheck();
+            bool nextOverride = EditorGUILayout.Toggle(
+                T("カスタムレンダーキュー", "Custom Render Queue"), overridden);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObjects(materials, "fShader Custom Render Queue");
+                foreach (Material target in materials)
+                {
+                    if (target.HasProperty(fShaderIceSurfaceState.QueueOverrideProperty))
+                    {
+                        target.SetFloat(fShaderIceSurfaceState.QueueOverrideProperty, nextOverride ? 1f : 0f);
+                    }
+                    if (!nextOverride)
+                    {
+                        SyncMaterial(target); // restore the automatic per-mode queue
+                    }
+                    EditorUtility.SetDirty(target);
+                }
+                overridden = nextOverride;
+            }
+
+            using (new EditorGUI.DisabledScope(!overridden))
+            {
+                EditorGUI.BeginChangeCheck();
+                int nextQueue = EditorGUILayout.IntField(T("レンダーキュー", "Render Queue"), material.renderQueue);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    nextQueue = Mathf.Clamp(nextQueue, 0, 5000);
+                    Undo.RecordObjects(materials, "fShader Render Queue");
+                    foreach (Material target in materials)
+                    {
+                        target.renderQueue = nextQueue;
+                        EditorUtility.SetDirty(target);
+                    }
+                }
+            }
+
+            if (!overridden)
+            {
+                EditorGUILayout.HelpBox(
+                    T("自動: モードに応じて 不透明=2000 / 透過=3000 を設定します。重なり順を手動調整したい場合はカスタムをONにしてください。",
+                      "Auto: opaque=2000 / transparent=3000 per mode. Enable Custom to hand-tune draw order for overlapping transparency."),
+                    MessageType.None);
+            }
+
+            if (material.HasProperty("_FSTransparentZWrite"))
+            {
+                EditorGUILayout.Space(3f);
+                bool zwrite = material.GetFloat("_FSTransparentZWrite") > 0.5f;
+                EditorGUI.BeginChangeCheck();
+                bool nextZWrite = EditorGUILayout.Toggle(
+                    T("透過ZWrite（重なり対策）", "Transparent ZWrite (overlap)"), zwrite);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObjects(materials, "fShader Transparent ZWrite");
+                    foreach (Material target in materials)
+                    {
+                        if (target.HasProperty("_FSTransparentZWrite"))
+                        {
+                            target.SetFloat("_FSTransparentZWrite", nextZWrite ? 1f : 0f);
+                        }
+                        EditorUtility.SetDirty(target);
+                    }
+                    zwrite = nextZWrite;
+                }
+                EditorGUILayout.HelpBox(
+                    zwrite
+                        ? T("ZWrite ONは透過面同士の前後を安定させますが、重なり部分でブレンドが変化したり、後ろの透過が隠れる場合があります。1オブジェクト内で透過が重なる場合は注意してください。",
+                            "ZWrite On stabilizes depth ordering between transparent surfaces but can change blending where they overlap and may hide surfaces behind. Watch overlaps within a single object.")
+                        : T("透過同士の重なりが破綻する場合は、レンダーキューの手動指定か、この透過ZWriteを併用してください（BRPの透過ソートは原理的に完全解決できません）。",
+                            "If overlapping transparency sorts incorrectly, hand-tune the render queue or enable Transparent ZWrite. BRP transparent sorting cannot be fully resolved."),
+                    MessageType.Info);
             }
             EditorGUILayout.Space(3f);
         }
@@ -401,12 +516,22 @@ namespace fShader.Editor
         public const string DestinationBlendProperty = "_FSDstBlend";
         public const string ZWriteProperty = "_FSZWrite";
         public const string TransparentKeyword = "FSHADER_ICE_TRANSPARENT";
+        public const string QueueOverrideProperty = "_FSQueueOverride";
 
         public static bool IsTransparent(Material material)
         {
             return material != null &&
                    material.HasProperty(TransparentProperty) &&
                    material.GetFloat(TransparentProperty) > 0.5f;
+        }
+
+        // When the user enables a custom render queue, the automatic per-mode queue
+        // assignment below must not overwrite it.
+        public static bool IsQueueOverridden(Material material)
+        {
+            return material != null &&
+                   material.HasProperty(QueueOverrideProperty) &&
+                   material.GetFloat(QueueOverrideProperty) > 0.5f;
         }
 
         public static void Sync(Material material)
@@ -416,6 +541,7 @@ namespace fShader.Editor
                 return;
             }
 
+            bool queueLocked = IsQueueOverridden(material);
             fShaderMode mode = (fShaderMode)Mathf.RoundToInt(material.GetFloat(fShaderPropertyNames.Mode));
             if (mode != fShaderMode.Ice)
             {
@@ -434,7 +560,7 @@ namespace fShader.Editor
                         material.SetOverrideTag("RenderType", "Transparent");
                         changedTransparent = true;
                     }
-                    if (material.renderQueue != (int)RenderQueue.Transparent)
+                    if (!queueLocked && material.renderQueue != (int)RenderQueue.Transparent)
                     {
                         material.renderQueue = (int)RenderQueue.Transparent;
                         changedTransparent = true;
@@ -450,7 +576,7 @@ namespace fShader.Editor
                         material.SetOverrideTag("RenderType", "Opaque");
                         changedOpaque = true;
                     }
-                    if (material.renderQueue != (int)RenderQueue.Geometry)
+                    if (!queueLocked && material.renderQueue != (int)RenderQueue.Geometry)
                     {
                         material.renderQueue = (int)RenderQueue.Geometry;
                         changedOpaque = true;
@@ -487,7 +613,7 @@ namespace fShader.Editor
             }
 
             int renderQueue = transparent ? (int)RenderQueue.Transparent : (int)RenderQueue.Geometry;
-            if (material.renderQueue != renderQueue)
+            if (!queueLocked && material.renderQueue != renderQueue)
             {
                 material.renderQueue = renderQueue;
                 changed = true;

@@ -46,6 +46,8 @@ Shader "fShader/Plus/Glass"
         _LTCGIMaxBrightness ("LTCGI Max Brightness", Range(0.1, 10)) = 2
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
+        [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _FSTransparentZWrite ("Transparent ZWrite", Float) = 0
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
         [HideInInspector] _FSMode ("fShader Mode", Float) = 2
@@ -58,7 +60,7 @@ Shader "fShader/Plus/Glass"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite Off ZTest LEqual Blend One OneMinusSrcAlpha
+            Cull Back ZWrite [_FSTransparentZWrite] ZTest LEqual Blend One OneMinusSrcAlpha
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert

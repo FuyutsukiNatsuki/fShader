@@ -168,7 +168,7 @@ namespace fShader.Editor
             DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約を使用" : "Use Vertex Color Contract");
             if (GUILayout.Button(japanese ? "選択中のIceへCold Mist Liteを作成" : "Create Cold Mist Lite for Selected Ice"))
             {
-                EditorApplication.ExecuteMenuItem("Tools/fShader/Create Cold Mist Lite for Selected Ice");
+                fShaderColdMistWizard.Create();
             }
         }
 

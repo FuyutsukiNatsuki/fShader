@@ -19,7 +19,7 @@ namespace fShader.Editor
         }
 
         [MenuItem("Tools/fShader/Create Cold Mist Lite for Selected Ice")]
-        private static void Create()
+        public static void Create()
         {
             GameObject selected = Selection.activeGameObject;
             MeshRenderer sourceRenderer = selected != null

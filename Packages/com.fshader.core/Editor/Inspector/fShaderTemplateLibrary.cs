@@ -202,26 +202,139 @@ namespace fShader.Editor
             }
         };
 
-        public static void DrawSection(MaterialEditor editor, bool japanese)
-        {
-            bool expanded = EditorPrefs.GetBool(FoldoutKey, true);
-            bool next = EditorGUILayout.Foldout(
-                expanded,
-                japanese ? "テンプレート" : "Templates",
-                true,
-                EditorStyles.foldoutHeader);
-            if (next != expanded) EditorPrefs.SetBool(FoldoutKey, next);
-            if (!next) return;
+        private static string exportName = string.Empty;
 
+        public static void DrawTemplateTab(MaterialEditor editor, bool japanese)
+        {
+            EditorGUILayout.Space(4f);
+            GUILayout.Label(japanese ? "組込テンプレート" : "Built-in Templates", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
                 japanese
                     ? "ワンクリックでシェーダーとサンプルテクスチャを割り当てます。サンプルが未インポートの場合は自動でインポートします（Standardはテクスチャなし）。"
                     : "One click assigns the shader plus matching sample textures, importing the sample automatically if needed (Standard assigns no textures).",
                 MessageType.None);
-
             DrawEditionRow(editor, fShaderEdition.Lite, japanese);
             DrawEditionRow(editor, fShaderEdition.Plus, japanese);
-            EditorGUILayout.Space(3f);
+
+            EditorGUILayout.Space(8f);
+            GUILayout.Label(japanese ? "ユーザーテンプレート" : "User Templates", EditorStyles.boldLabel);
+            DrawUserTemplates(editor, japanese);
+
+            EditorGUILayout.Space(8f);
+            GUILayout.Label(japanese ? "作成 / 読み込み" : "Create / Import", EditorStyles.boldLabel);
+            DrawExportImport(editor, japanese);
+            EditorGUILayout.Space(4f);
+        }
+
+        private static void DrawUserTemplates(MaterialEditor editor, bool japanese)
+        {
+            var templates = fShaderTemplateIO.ListUserTemplates();
+            if (templates.Count == 0)
+            {
+                EditorGUILayout.HelpBox(
+                    japanese
+                        ? "ユーザーテンプレートはまだありません。下の「現在のマテリアルを書き出し」で作成できます。"
+                        : "No user templates yet. Create one with \"Export current material\" below.",
+                    MessageType.None);
+                return;
+            }
+
+            string applyPath = null;
+            string deletePath = null;
+            foreach (fShaderTemplateIO.UserTemplate template in templates)
+            {
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Label(template.DisplayName, GUILayout.MinWidth(80f));
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button(japanese ? "適用" : "Apply", GUILayout.Width(70f)))
+                {
+                    applyPath = template.AssetPath;
+                }
+                if (GUILayout.Button(japanese ? "削除" : "Delete", GUILayout.Width(70f)))
+                {
+                    deletePath = template.AssetPath;
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (applyPath != null)
+            {
+                fShaderTemplateIO.Apply(editor, applyPath);
+                GUIUtility.ExitGUI();
+            }
+            if (deletePath != null)
+            {
+                if (EditorUtility.DisplayDialog(
+                        "fShader",
+                        (japanese ? "テンプレートを削除しますか？\n" : "Delete this template?\n") + deletePath,
+                        japanese ? "削除" : "Delete",
+                        japanese ? "キャンセル" : "Cancel"))
+                {
+                    AssetDatabase.DeleteAsset(deletePath);
+                    AssetDatabase.Refresh();
+                }
+                GUIUtility.ExitGUI();
+            }
+        }
+
+        private static void DrawExportImport(MaterialEditor editor, bool japanese)
+        {
+            Material material = editor.target as Material;
+            if (string.IsNullOrEmpty(exportName) && material != null)
+            {
+                exportName = material.name;
+            }
+
+            exportName = EditorGUILayout.TextField(japanese ? "テンプレート名" : "Template Name", exportName);
+            bool doExport = false;
+            bool doImport = false;
+            EditorGUILayout.BeginHorizontal();
+            using (new EditorGUI.DisabledScope(material == null || string.IsNullOrWhiteSpace(exportName)))
+            {
+                if (GUILayout.Button(japanese ? "現在のマテリアルを書き出し" : "Export current material"))
+                {
+                    doExport = true;
+                }
+            }
+            if (GUILayout.Button(japanese ? "テンプレートを読み込み" : "Import template"))
+            {
+                doImport = true;
+            }
+            EditorGUILayout.EndHorizontal();
+
+            if (doExport && material != null)
+            {
+                string path = fShaderTemplateIO.ExportMaterial(material, exportName.Trim());
+                if (!string.IsNullOrEmpty(path))
+                {
+                    EditorUtility.DisplayDialog(
+                        "fShader",
+                        (japanese ? "テンプレートを書き出しました:\n" : "Exported template:\n") + path,
+                        "OK");
+                }
+                GUIUtility.ExitGUI();
+            }
+            if (doImport)
+            {
+                string source = EditorUtility.OpenFilePanel(
+                    japanese ? "fShaderテンプレートを読み込み" : "Import fShader template", string.Empty, "json");
+                if (!string.IsNullOrEmpty(source))
+                {
+                    bool ok = fShaderTemplateIO.ImportFromFile(source);
+                    EditorUtility.DisplayDialog(
+                        "fShader",
+                        ok
+                            ? (japanese ? "テンプレートを読み込みました。" : "Template imported.")
+                            : (japanese ? "有効なfShaderテンプレートではありません。" : "Not a valid fShader template."),
+                        "OK");
+                }
+                GUIUtility.ExitGUI();
+            }
+            EditorGUILayout.HelpBox(
+                japanese
+                    ? "書き出しは Assets/fShader Templates にJSONで保存します。テクスチャはGUID参照のため、同一プロジェクト内で復元できます。"
+                    : "Export writes JSON to Assets/fShader Templates. Textures are referenced by GUID, so templates restore within the same project.",
+                MessageType.None);
         }
 
         private static void DrawEditionRow(MaterialEditor editor, fShaderEdition edition, bool japanese)
