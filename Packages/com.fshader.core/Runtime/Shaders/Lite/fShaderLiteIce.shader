@@ -12,6 +12,7 @@ Shader "fShader/Lite/Ice"
         _NormalScale ("Normal Scale", Range(0, 2)) = 1
         _HeightScale ("Height Scale", Range(0, 0.1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
+        [Toggle] _FSIceTransparent ("Transparent Ice", Float) = 0
 
         _IceColor ("Ice Color", Color) = (0.45, 0.78, 1, 1)
         _IceThickness ("Ice Thickness", Range(0, 1)) = 0.55
@@ -36,6 +37,9 @@ Shader "fShader/Lite/Ice"
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 0
         [HideInInspector] _FSMode ("fShader Mode", Float) = 1
         [HideInInspector] _FSFeatureFlags ("fShader Feature Flags", Float) = 0
+        [HideInInspector] _FSSrcBlend ("Source Blend", Float) = 1
+        [HideInInspector] _FSDstBlend ("Destination Blend", Float) = 0
+        [HideInInspector] _FSZWrite ("ZWrite", Float) = 1
     }
     SubShader
     {
@@ -44,11 +48,11 @@ Shader "fShader/Lite/Ice"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite On ZTest LEqual Blend Off
+            Cull Back ZWrite [_FSZWrite] ZTest LEqual Blend [_FSSrcBlend] [_FSDstBlend]
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert
-            #pragma fragment FSFragOpaque
+            #pragma fragment FSFragIce
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
@@ -60,6 +64,7 @@ Shader "fShader/Lite/Ice"
             #pragma shader_feature_local _ FSHADER_ICE_CRACKS
             #pragma shader_feature_local _ FSHADER_ICE_SCATTER
             #pragma shader_feature_local _ FSHADER_ICE_SPARKLE
+            #pragma shader_feature_local _ FSHADER_ICE_TRANSPARENT
             #pragma shader_feature_local _ FSHADER_VERTEX_COLOR
             #define FSHADER_MODE_ICE 1
             #include "Packages/com.fshader.core/Runtime/Shaders/Includes/fShaderCommon.cginc"

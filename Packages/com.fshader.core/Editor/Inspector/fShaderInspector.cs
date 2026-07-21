@@ -331,6 +331,7 @@ namespace fShader.Editor
                 fShaderP2Inspector.SyncKeywords(material);
                 fShaderP3Inspector.SyncKeywords(material);
                 fShaderP4Inspector.SyncKeywords(material);
+                fShaderIceSurfaceState.Sync(material);
             }
         }
 
@@ -385,6 +386,108 @@ namespace fShader.Editor
         private static string T(string ja, string en)
         {
             return japanese ? ja : en;
+        }
+    }
+    public static class fShaderIceSurfaceState
+    {
+        public const string TransparentProperty = "_FSIceTransparent";
+        public const string SourceBlendProperty = "_FSSrcBlend";
+        public const string DestinationBlendProperty = "_FSDstBlend";
+        public const string ZWriteProperty = "_FSZWrite";
+        public const string TransparentKeyword = "FSHADER_ICE_TRANSPARENT";
+
+        public static bool IsTransparent(Material material)
+        {
+            return material != null &&
+                   material.HasProperty(TransparentProperty) &&
+                   material.GetFloat(TransparentProperty) > 0.5f;
+        }
+
+        public static void Sync(Material material)
+        {
+            if (material == null || !material.HasProperty(fShaderPropertyNames.Mode))
+            {
+                return;
+            }
+
+            fShaderMode mode = (fShaderMode)Mathf.RoundToInt(material.GetFloat(fShaderPropertyNames.Mode));
+            if (mode != fShaderMode.Ice)
+            {
+                string shaderName = material.shader != null ? material.shader.name : string.Empty;
+                if ((mode == fShaderMode.Water || mode == fShaderMode.Glass) &&
+                    fShaderShaderCatalog.TryParse(shaderName, out _, out _))
+                {
+                    bool changedToTransparent = false;
+                    if (material.GetTag("RenderType", false) != "Transparent")
+                    {
+                        material.SetOverrideTag("RenderType", "Transparent");
+                        changedToTransparent = true;
+                    }
+                    if (material.renderQueue != (int)RenderQueue.Transparent)
+                    {
+                        material.renderQueue = (int)RenderQueue.Transparent;
+                        changedToTransparent = true;
+                    }
+                    if (changedToTransparent) EditorUtility.SetDirty(material);
+                }
+                return;
+            }
+
+            if (!material.HasProperty(TransparentProperty))
+            {
+                return;
+            }
+
+            bool transparent = IsTransparent(material);
+            bool changed = false;
+            if (material.IsKeywordEnabled(TransparentKeyword) != transparent)
+            {
+                if (transparent) material.EnableKeyword(TransparentKeyword);
+                else material.DisableKeyword(TransparentKeyword);
+                changed = true;
+            }
+
+            changed |= SetFloat(material, SourceBlendProperty, (float)BlendMode.One);
+            changed |= SetFloat(material, DestinationBlendProperty,
+                transparent ? (float)BlendMode.OneMinusSrcAlpha : (float)BlendMode.Zero);
+            changed |= SetFloat(material, ZWriteProperty, transparent ? 0f : 1f);
+
+            string renderType = transparent ? "Transparent" : "Opaque";
+            if (material.GetTag("RenderType", false) != renderType)
+            {
+                material.SetOverrideTag("RenderType", renderType);
+                changed = true;
+            }
+
+            int renderQueue = transparent ? (int)RenderQueue.Transparent : (int)RenderQueue.Geometry;
+            if (material.renderQueue != renderQueue)
+            {
+                material.renderQueue = renderQueue;
+                changed = true;
+            }
+
+            if (material.GetShaderPassEnabled("SHADOWCASTER") == transparent)
+            {
+                material.SetShaderPassEnabled("SHADOWCASTER", !transparent);
+                changed = true;
+            }
+            if (material.GetShaderPassEnabled("META") == transparent)
+            {
+                material.SetShaderPassEnabled("META", !transparent);
+                changed = true;
+            }
+            if (changed) EditorUtility.SetDirty(material);
+        }
+
+        private static bool SetFloat(Material material, string propertyName, float value)
+        {
+            if (!material.HasProperty(propertyName) ||
+                Mathf.Approximately(material.GetFloat(propertyName), value))
+            {
+                return false;
+            }
+            material.SetFloat(propertyName, value);
+            return true;
         }
     }
 }

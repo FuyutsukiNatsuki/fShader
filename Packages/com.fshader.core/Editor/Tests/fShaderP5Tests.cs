@@ -92,7 +92,7 @@ namespace fShader.Editor.Tests
         [Test]
         public void CatalogMarksReleaseVersion()
         {
-            Assert.That(fShaderShaderCatalog.Version, Is.EqualTo("1.0.0"));
+            Assert.That(fShaderShaderCatalog.Version, Is.EqualTo("1.0.1"));
         }
     }
 }

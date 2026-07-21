@@ -53,6 +53,9 @@ void FSModeModifySurface(inout FSSurfaceData surface, FSVaryings input)
     surface.baseColor *= lerp(1.0h, 0.45h, cracks);
     surface.modeMask = frost;
     surface.modeDetail = cracks;
+    #if defined(FSHADER_ICE_TRANSPARENT)
+        surface.alpha = saturate(surface.alpha + frost * 0.38h + cracks * 0.16h + thickness * 0.10h);
+    #endif
 }
 
 half3 FSModeReflectionNormal(FSVaryings input, FSSurfaceData surface)

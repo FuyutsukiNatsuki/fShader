@@ -1,4 +1,4 @@
-Shader "fShader/Plus/Ice"
+Shader "Hidden/fShader/Plus/IceScreenRefraction"
 {
     Properties
     {
@@ -12,7 +12,7 @@ Shader "fShader/Plus/Ice"
         _NormalScale ("Normal Scale", Range(0, 2)) = 0.8
         _HeightScale ("Height Scale", Range(0, 0.1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
-        [Toggle] _FSIceTransparent ("Transparent Ice", Float) = 0
+        [Toggle] _FSIceTransparent ("Transparent Ice", Float) = 1
 
         _IceColor ("Ice Color", Color) = (0.72, 0.92, 1, 1)
         _AbsorptionColor ("Absorption Color", Color) = (0.22, 0.58, 0.82, 1)
@@ -49,30 +49,31 @@ Shader "fShader/Plus/Ice"
         _IOR ("Index of Refraction", Range(1, 2.5)) = 1.31
         _RefractionStrength ("Screen Distortion", Range(0, 1)) = 0.12
         [Toggle] _FSBoxProjection ("Box Projected Probe", Float) = 1
-        [Toggle] _FSScreenRefraction ("Screen Refraction (Heavy)", Float) = 0
+        [Toggle] _FSScreenRefraction ("Screen Refraction (Heavy)", Float) = 1
         [Toggle] _FSVertexColor ("Use Vertex Color", Float) = 0
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
         [HideInInspector] _FSMode ("fShader Mode", Float) = 1
-        [HideInInspector] _FSFeatureFlags ("fShader Feature Flags", Float) = 0
+        [HideInInspector] _FSFeatureFlags ("fShader Feature Flags", Float) = 1
         [HideInInspector] _FSSrcBlend ("Source Blend", Float) = 1
         [HideInInspector] _FSDstBlend ("Destination Blend", Float) = 0
         [HideInInspector] _FSZWrite ("ZWrite", Float) = 1
     }
     SubShader
     {
-        Tags { "Queue"="Geometry" "RenderType"="Opaque" "PreviewType"="Sphere" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" "PreviewType"="Sphere" }
+        GrabPass { "_fShaderSharedGrab" }
         Pass
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite [_FSZWrite] ZTest LEqual Blend [_FSSrcBlend] [_FSDstBlend]
+            Cull Back ZWrite Off ZTest LEqual Blend Off
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert
-            #pragma fragment FSFragIce
+            #pragma fragment FSFragIceScreen
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
@@ -84,10 +85,12 @@ Shader "fShader/Plus/Ice"
             #pragma shader_feature_local _ FSHADER_ICE_CRACKS
             #pragma shader_feature_local _ FSHADER_ICE_BACKLIGHT
             #pragma shader_feature_local _ FSHADER_ICE_SPARKLE
-            #pragma shader_feature_local _ FSHADER_ICE_TRANSPARENT
+            #define FSHADER_ICE_TRANSPARENT 1
             #pragma shader_feature_local _ FSHADER_BOX_PROJECTION
             #pragma shader_feature_local _ FSHADER_VERTEX_COLOR
             #define FSHADER_PLUS_ICE 1
+            #define FSHADER_SCREEN_REFRACTION 1
+            #define FSHADER_SCREEN_ICE 1
             #include "Packages/com.fshader.core/Runtime/Shaders/Includes/fShaderCommon.cginc"
             ENDCG
         }

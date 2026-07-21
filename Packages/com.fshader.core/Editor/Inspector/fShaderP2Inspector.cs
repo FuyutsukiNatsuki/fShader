@@ -44,7 +44,7 @@ namespace fShader.Editor
             }
             else if (mode == fShaderMode.Ice)
             {
-                DrawIce(editor, properties, japanese);
+                DrawIce(editor, properties, material, japanese);
             }
             else
             {
@@ -83,6 +83,7 @@ namespace fShader.Editor
                     IsEnabled(material, "_FSIceCracks") && HasAssignedTexture(material, fShaderPropertyNames.CrackMap));
                 SetKeyword(material, "FSHADER_ICE_SCATTER", IsEnabled(material, "_FSIceScatter"));
                 SetKeyword(material, "FSHADER_ICE_SPARKLE", IsEnabled(material, "_FSIceSparkle"));
+                fShaderIceSurfaceState.Sync(material);
             }
             else if (mode == fShaderMode.Glass)
             {
@@ -135,9 +136,21 @@ namespace fShader.Editor
         private static void DrawIce(
             MaterialEditor editor,
             MaterialProperty[] properties,
+            Material material,
             bool japanese)
         {
             DrawPresetButtons(editor, fShaderMode.Ice, japanese, "Ice Clear", "Ice Frosted");
+            DrawProperty(editor, properties, fShaderIceSurfaceState.TransparentProperty,
+                japanese ? "透過Ice" : "Transparent Ice");
+            EditorGUILayout.HelpBox(
+                fShaderIceSurfaceState.IsTransparent(material)
+                    ? (japanese
+                        ? "TransparentはZWrite OFF・半透明キューで描画します。重なった透明面やMirrorでは描画順とOverdrawに注意してください。"
+                        : "Transparent uses ZWrite Off and the transparent queue. Watch sorting and overdraw with stacked surfaces and mirrors.")
+                    : (japanese
+                        ? "Opaqueは1.0.0互換の最軽量設定です。OpacityはTransparent時だけ有効です。"
+                        : "Opaque is the lightweight 1.0.0-compatible default. Opacity is used only in Transparent mode."),
+                fShaderIceSurfaceState.IsTransparent(material) ? MessageType.Warning : MessageType.Info);
             DrawProperty(editor, properties, fShaderPropertyNames.IceColor, japanese ? "氷カラー" : "Ice Color");
             DrawProperty(editor, properties, fShaderPropertyNames.IceThickness, japanese ? "厚み近似" : "Thickness Approximation");
             DrawToggleWithTexture(editor, properties, "_FSIceFrost", fShaderPropertyNames.FrostMap, fShaderPropertyNames.FrostStrength, "Frost");
@@ -207,6 +220,8 @@ namespace fShader.Editor
                 }
                 else if (mode == fShaderMode.Ice)
                 {
+                    SetFloat(material, fShaderIceSurfaceState.TransparentProperty, rich ? 0f : 1f);
+                    SetFloat(material, fShaderPropertyNames.Opacity, rich ? 1f : 0.42f);
                     SetFloat(material, "_FSIceFrost", rich ? 1f : 0f);
                     SetFloat(material, "_FSIceCracks", rich ? 1f : 0f);
                     SetFloat(material, "_FSIceScatter", 1f);

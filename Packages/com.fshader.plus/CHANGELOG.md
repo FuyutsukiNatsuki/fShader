@@ -1,4 +1,12 @@
 # Changelog
+
+## 1.0.1 - 2026-07-21
+
+- Added opt-in transparent Plus Ice with view-angle absorption and local Frost/Crack opacity.
+- Added optional stereo-safe shared-GrabPass Screen Refraction for Transparent Ice.
+- Preserved Opaque Ice and Screen Refraction OFF as the lightweight defaults.
+- Updated the Core dependency to 1.0.1.
+
 ## 1.0.0 - 2026-07-18
 
 - Prepared the first fShader Plus release and updated the Core dependency to 1.0.0 through VPM metadata.

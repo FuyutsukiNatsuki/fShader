@@ -5,7 +5,7 @@
 `Build-BoothPackages.ps1`は全Unityアセットの`.meta`とGUIDを検証し、Lite/PlusのUnityPackage、Booth配布ZIP、SHA-256を生成します。
 
 ```powershell
-./Tools/Release/Build-Packages.ps1 -ExpectedVersion 1.0.0
+./Tools/Release/Build-Packages.ps1 -ExpectedVersion 1.0.1
 ```
 
-Boothへは`Release/fShader-1.0.0-Booth.zip`を登録し、`BOOTH_DESCRIPTION_JA.md`を商品説明の原稿として使います。GitHubで公開する前に、`RELEASE_CHECKLIST_JA.md`、fShader License 1.0、GitHub Pages設定、両パッケージのRelease生成結果を確認してください。
+Boothへは`Release/fShader-1.0.1-Booth.zip`を登録し、`BOOTH_DESCRIPTION_JA.md`を商品説明の原稿として使います。GitHubで公開する前に、`RELEASE_CHECKLIST_JA.md`、fShader License 1.0、GitHub Pages設定、両パッケージのRelease生成結果を確認してください。

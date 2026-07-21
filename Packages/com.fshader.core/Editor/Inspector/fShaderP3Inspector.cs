@@ -8,8 +8,10 @@ namespace fShader.Editor
     {
         private const string FoldoutKey = "fShader.Inspector.PlusModeFeatures";
         private const string PlusWaterShader = "fShader/Plus/Water";
+        private const string PlusIceShader = "fShader/Plus/Ice";
         private const string PlusGlassShader = "fShader/Plus/Glass";
         private const string ScreenWaterShader = "Hidden/fShader/Plus/WaterScreenRefraction";
+        private const string ScreenIceShader = "Hidden/fShader/Plus/IceScreenRefraction";
         private const string ScreenGlassShader = "Hidden/fShader/Plus/GlassScreenRefraction";
 
         public static void Draw(
@@ -47,7 +49,7 @@ namespace fShader.Editor
             }
             else if (mode == fShaderMode.Ice)
             {
-                DrawIce(editor, properties, japanese);
+                DrawIce(editor, properties, material, japanese);
             }
             else
             {
@@ -92,6 +94,8 @@ namespace fShader.Editor
                     IsEnabled(material, "_FSIceCracks") && HasAssignedTexture(material, "_CrackMap"));
                 SetKeyword(material, "FSHADER_ICE_BACKLIGHT", IsEnabled(material, "_FSIceBackLight"));
                 SetKeyword(material, "FSHADER_ICE_SPARKLE", IsEnabled(material, "_FSIceSparkle"));
+                fShaderIceSurfaceState.Sync(material);
+                SyncScreenShader(material, fShaderMode.Ice);
             }
             else
             {
@@ -166,8 +170,22 @@ namespace fShader.Editor
             DrawReflectionAndScreen(editor, properties, material, japanese);
         }
 
-        private static void DrawIce(MaterialEditor editor, MaterialProperty[] properties, bool japanese)
+        private static void DrawIce(MaterialEditor editor, MaterialProperty[] properties, Material material, bool japanese)
         {
+            Header(japanese ? "描画モード" : "Rendering Mode");
+            DrawProperty(editor, properties, fShaderIceSurfaceState.TransparentProperty,
+                japanese ? "透過Ice" : "Transparent Ice");
+            bool transparent = fShaderIceSurfaceState.IsTransparent(material);
+            EditorGUILayout.HelpBox(
+                transparent
+                    ? (japanese
+                        ? "厚み・Frost・Crackが不透明度へ反映されます。透明面の重なり、Mirror、Overdrawに注意してください。"
+                        : "Thickness, Frost, and Cracks contribute to opacity. Watch sorting, mirrors, and overdraw.")
+                    : (japanese
+                        ? "Opaqueは1.0.0互換の最軽量設定です。OpacityはTransparent時だけ有効です。"
+                        : "Opaque is the lightweight 1.0.0-compatible default. Opacity is used only in Transparent mode."),
+                transparent ? MessageType.Warning : MessageType.Info);
+
             Header(japanese ? "氷・吸収" : "Ice & Absorption");
             DrawProperty(editor, properties, "_IceColor", japanese ? "氷カラー" : "Ice Color");
             DrawProperty(editor, properties, "_AbsorptionColor", japanese ? "吸収カラー" : "Absorption Color");
@@ -201,6 +219,18 @@ namespace fShader.Editor
             DrawProperty(editor, properties, "_SparkleDistance", japanese ? "距離Fade" : "Distance Fade");
             DrawProperty(editor, properties, "_FSBoxProjection", "Box Projected Probe");
             DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約" : "Vertex Color Contract");
+
+            Header(japanese ? "屈折" : "Refraction");
+            DrawProperty(editor, properties, "_RefractionStrength", japanese ? "Screen歪み" : "Screen Distortion");
+            using (new EditorGUI.DisabledScope(!transparent))
+            {
+                DrawProperty(editor, properties, "_FSScreenRefraction", japanese ? "Screen Refraction（Heavy）" : "Screen Refraction (Heavy)");
+            }
+            EditorGUILayout.HelpBox(
+                japanese
+                    ? "Screen RefractionはTransparent Ice専用の共有GrabPass機能です。通常はOFFを推奨します。"
+                    : "Screen Refraction is a shared GrabPass feature for Transparent Ice. Keep it OFF for normal use.",
+                IsEnabled(material, "_FSScreenRefraction") ? MessageType.Warning : MessageType.Info);
             if (GUILayout.Button(japanese ? "選択中のIceへCold Mist Plusを作成" : "Create Cold Mist Plus for Selected Ice"))
             {
                 EditorApplication.ExecuteMenuItem("Tools/fShader/Create Cold Mist Plus for Selected Ice");
@@ -238,6 +268,7 @@ namespace fShader.Editor
             DrawProperty(editor, properties, "_RefractionStrength", japanese ? "Probe/Screen歪み" : "Probe/Screen Distortion");
             DrawProperty(editor, properties, "_FSBoxProjection", "Box Projected Probe");
             DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約" : "Vertex Color Contract");
+
             bool screen = IsEnabled(material, "_FSScreenRefraction");
             EditorGUILayout.HelpBox(
                 japanese
@@ -315,6 +346,9 @@ namespace fShader.Editor
                 }
                 else if (mode == fShaderMode.Ice)
                 {
+                    SetFloat(material, fShaderIceSurfaceState.TransparentProperty, showcase ? 1f : 0f);
+                    SetFloat(material, fShaderPropertyNames.Opacity, showcase ? 0.34f : 1f);
+                    SetFloat(material, "_FSScreenRefraction", showcase ? 1f : 0f);
                     SetFloat(material, "_FSIceFrost", showcase ? 1f : 0f);
                     SetFloat(material, "_FSIceCracks", showcase ? 1f : 0f);
                     SetFloat(material, "_FSIceBackLight", 1f);
@@ -350,13 +384,18 @@ namespace fShader.Editor
 
         private static void SyncScreenShader(Material material, fShaderMode mode)
         {
-            if (mode == fShaderMode.Ice)
-            {
-                return;
-            }
             bool enabled = IsEnabled(material, "_FSScreenRefraction");
-            string standard = mode == fShaderMode.Water ? PlusWaterShader : PlusGlassShader;
-            string screen = mode == fShaderMode.Water ? ScreenWaterShader : ScreenGlassShader;
+            if (mode == fShaderMode.Ice && !fShaderIceSurfaceState.IsTransparent(material))
+            {
+                enabled = false;
+                SetFloat(material, "_FSScreenRefraction", 0f);
+            }
+            string standard = mode == fShaderMode.Water
+                ? PlusWaterShader
+                : mode == fShaderMode.Ice ? PlusIceShader : PlusGlassShader;
+            string screen = mode == fShaderMode.Water
+                ? ScreenWaterShader
+                : mode == fShaderMode.Ice ? ScreenIceShader : ScreenGlassShader;
             string targetName = enabled ? screen : standard;
             if (material.shader != null && material.shader.name == targetName)
             {

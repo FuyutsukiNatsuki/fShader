@@ -26,7 +26,8 @@ namespace fShader.Editor.Tests
                 "_AbsorptionColor", "_AbsorptionStrength", "_FrostMap", "_FrostScaleA",
                 "_FrostScaleB", "_FrostEdge", "_CrackMap", "_CrackParallax",
                 "_CrackGlowColor", "_CrackGlowStrength", "_BackLightColor",
-                "_BackLightStrength", "_SparkleDensity", "_SparkleSize", "_SparkleDistance");
+                "_BackLightStrength", "_SparkleDensity", "_SparkleSize", "_SparkleDistance",
+                "_FSIceTransparent", "_FSScreenRefraction", "_RefractionStrength");
         }
 
         [Test]
@@ -73,10 +74,13 @@ namespace fShader.Editor.Tests
         public void OptionalScreenShadersUseSharedGrab()
         {
             Assert.That(Shader.Find("Hidden/fShader/Plus/WaterScreenRefraction"), Is.Not.Null);
+            Assert.That(Shader.Find("Hidden/fShader/Plus/IceScreenRefraction"), Is.Not.Null);
             Assert.That(Shader.Find("Hidden/fShader/Plus/GlassScreenRefraction"), Is.Not.Null);
             string water = File.ReadAllText("Packages/com.fshader.plus/Runtime/Shaders/Plus/Hidden/fShaderPlusWaterScreenRefraction.shader");
+            string ice = File.ReadAllText("Packages/com.fshader.plus/Runtime/Shaders/Plus/Hidden/fShaderPlusIceScreenRefraction.shader");
             string glass = File.ReadAllText("Packages/com.fshader.plus/Runtime/Shaders/Plus/Hidden/fShaderPlusGlassScreenRefraction.shader");
             StringAssert.Contains("GrabPass { \"_fShaderSharedGrab\" }", water);
+            StringAssert.Contains("GrabPass { \"_fShaderSharedGrab\" }", ice);
             StringAssert.Contains("GrabPass { \"_fShaderSharedGrab\" }", glass);
         }
 
@@ -89,6 +93,13 @@ namespace fShader.Editor.Tests
                 out fShaderMode waterMode), Is.True);
             Assert.That(waterEdition, Is.EqualTo(fShaderEdition.Plus));
             Assert.That(waterMode, Is.EqualTo(fShaderMode.Water));
+
+            Assert.That(fShaderShaderCatalog.TryParse(
+                "Hidden/fShader/Plus/IceScreenRefraction",
+                out fShaderEdition iceEdition,
+                out fShaderMode iceMode), Is.True);
+            Assert.That(iceEdition, Is.EqualTo(fShaderEdition.Plus));
+            Assert.That(iceMode, Is.EqualTo(fShaderMode.Ice));
 
             Assert.That(fShaderShaderCatalog.TryParse(
                 "Hidden/fShader/Plus/GlassScreenRefraction",

@@ -294,6 +294,15 @@ half4 FSFragTransparent(FSVaryings input) : SV_Target
     return color;
 }
 
+half4 FSFragIce(FSVaryings input) : SV_Target
+{
+    #if defined(FSHADER_ICE_TRANSPARENT)
+        return FSFragTransparent(input);
+    #else
+        return FSFragOpaque(input);
+    #endif
+}
+
 #if defined(FSHADER_SCREEN_REFRACTION)
 UNITY_DECLARE_SCREENSPACE_TEXTURE(_fShaderSharedGrab);
 
@@ -359,6 +368,38 @@ half4 FSFragWaterScreen(FSVaryings input) : SV_Target
     half3 viewDirection = FSWorldSpaceViewDirection(input.worldPosition);
     half fresnel = Pow5(1.0h - saturate(dot(surface.normalWS, viewDirection)));
     half surfaceWeight = saturate(surface.alpha * 0.35h + fresnel * _FresnelStrength + surface.modeMask * 0.2h);
+    half4 color = half4(lerp(background, surfaceLighting, surfaceWeight), 1.0h);
+    UNITY_APPLY_FOG(input.fogCoord, color);
+    return color;
+}
+#endif
+
+#if defined(FSHADER_SCREEN_ICE)
+half4 FSFragIceScreen(FSVaryings input) : SV_Target
+{
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+    FSSurfaceData surface = FSSampleSurface(input);
+
+    #if defined(FSHADER_DEBUG)
+        half4 debugColor = FSResolveDebug(surface, input);
+        UNITY_APPLY_FOG(input.fogCoord, debugColor);
+        return debugColor;
+    #endif
+
+    half3 viewDirection = FSWorldSpaceViewDirection(input.worldPosition);
+    half viewFactor = max(abs(dot(normalize(input.worldNormal), viewDirection)), 0.22h);
+    half thickness = saturate(_IceThickness * lerp(0.55h, 1.0h, surface.height));
+    half absorption = saturate(thickness * _AbsorptionStrength / viewFactor);
+    float2 screenUV = FSRefractedScreenUV(input, surface, _RefractionStrength, thickness);
+    half3 background = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_fShaderSharedGrab, screenUV).rgb;
+    background *= lerp(1.0h, _AbsorptionColor.rgb, absorption);
+    half3 surfaceLighting = FSShadeSurface(input, surface);
+    half fresnel = Pow5(1.0h - saturate(dot(surface.normalWS, viewDirection)));
+    half surfaceWeight = saturate(surface.alpha * 0.35h +
+                                  surface.modeMask * 0.32h +
+                                  surface.modeDetail * 0.18h +
+                                  fresnel * 0.28h);
     half4 color = half4(lerp(background, surfaceLighting, surfaceWeight), 1.0h);
     UNITY_APPLY_FOG(input.fogCoord, color);
     return color;

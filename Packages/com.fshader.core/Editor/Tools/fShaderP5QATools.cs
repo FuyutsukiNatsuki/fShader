@@ -151,6 +151,7 @@ namespace fShader.Editor
             Camera camera = CreateCaptureCamera(root.transform);
             CreateMaterialGallery(root.transform);
             CreateRefractionDiagnosticStage(root.transform);
+            CreateIceTransparencyDiagnosticStage(root.transform);
             CreateMeasurementMarkers(root.transform);
             CreateMirror(root.transform);
             CreateLTCGIStage(root.transform, scene);
@@ -266,6 +267,38 @@ namespace fShader.Editor
             CreateLabel(parent, "REFRACTION A/B  |  LEFT=OFF  RIGHT=ON  |  TEST STRENGTH 0.50", new Vector3(0f, 6.45f, 30.2f));
         }
 
+        private static void CreateIceTransparencyDiagnosticStage(Transform parent)
+        {
+            Material liteOpaque = GetOrCreateMaterial("Lite_Ice_Opaque_Test", "fShader/Lite/Ice", new Color(0.66f, 0.9f, 1f, 1f), false, false, false);
+            Material liteTransparent = GetOrCreateMaterial("Lite_Ice_Transparent_Test", "fShader/Lite/Ice", new Color(0.66f, 0.9f, 1f, 0.32f), false, false, false);
+            Material plusTransparent = GetOrCreateMaterial("Plus_Ice_Transparent_Test", "fShader/Plus/Ice", new Color(0.58f, 0.86f, 1f, 0.30f), false, false, true);
+            Material plusRefraction = GetOrCreateMaterial("Plus_Ice_Refraction_Test", "fShader/Plus/Ice", new Color(0.58f, 0.86f, 1f, 0.30f), false, false, true);
+
+            ConfigureIceTransparencyDiagnosticMaterial(liteOpaque, false, false);
+            ConfigureIceTransparencyDiagnosticMaterial(liteTransparent, true, false);
+            ConfigureIceTransparencyDiagnosticMaterial(plusTransparent, true, false);
+            ConfigureIceTransparencyDiagnosticMaterial(plusRefraction, true, true);
+
+            Material backdrop = GetDiagnosticMaterial("QA_Ice_Backdrop", new Color(0.12f, 0.16f, 0.24f, 1f));
+            CreateDisplay(parent, "ICE BACKDROP", PrimitiveType.Cube, new Vector3(0f, 2.15f, 36.6f), new Vector3(14.5f, 4.4f, 0.12f), backdrop);
+            CreateDisplay(parent, "LITE OPAQUE", PrimitiveType.Cube, new Vector3(-5.25f, 2.15f, 35.8f), new Vector3(2.8f, 3.7f, 0.45f), liteOpaque);
+            CreateDisplay(parent, "LITE TRANSPARENT", PrimitiveType.Cube, new Vector3(-1.75f, 2.15f, 35.8f), new Vector3(2.8f, 3.7f, 0.45f), liteTransparent);
+            CreateDisplay(parent, "PLUS TRANSPARENT", PrimitiveType.Cube, new Vector3(1.75f, 2.15f, 35.8f), new Vector3(2.8f, 3.7f, 0.45f), plusTransparent);
+            CreateDisplay(parent, "PLUS REFRACTION", PrimitiveType.Cube, new Vector3(5.25f, 2.15f, 35.8f), new Vector3(2.8f, 3.7f, 0.45f), plusRefraction);
+            CreateLabel(parent, "ICE 1.0.1  |  OPAQUE / TRANSPARENT / PLUS REFRACTION", new Vector3(0f, 6.45f, 36.8f));
+        }
+
+        private static void ConfigureIceTransparencyDiagnosticMaterial(Material material, bool transparent, bool screen)
+        {
+            SetFloat(material, "_FSIceTransparent", transparent ? 1f : 0f);
+            SetFloat(material, "_Opacity", transparent ? 0.32f : 1f);
+            SetFloat(material, "_RefractionStrength", 0.38f);
+            SetFloat(material, "_FSScreenRefraction", screen ? 1f : 0f);
+            fShaderP2Inspector.SyncKeywords(material);
+            fShaderP3Inspector.SyncKeywords(material);
+            fShaderIceSurfaceState.Sync(material);
+            EditorUtility.SetDirty(material);
+        }
         private static void ConfigureRefractionDiagnosticMaterial(Material material, Texture2D normal, bool screen)
         {
             SetFloat(material, "_RefractionStrength", 0.50f);

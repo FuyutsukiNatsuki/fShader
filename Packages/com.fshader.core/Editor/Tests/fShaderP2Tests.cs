@@ -1,6 +1,7 @@
 using System.IO;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace fShader.Editor.Tests
 {
@@ -24,7 +25,8 @@ namespace fShader.Editor.Tests
                 "fShader/Lite/Ice",
                 "_IceColor", "_IceThickness", "_FrostMap", "_FrostStrength",
                 "_CrackMap", "_CrackDepth", "_ScatterColor", "_ScatterStrength",
-                "_SparkleStrength", "_SparkleDistance", "_FSIceScatter");
+                "_SparkleStrength", "_SparkleDistance", "_FSIceScatter", "_FSIceTransparent",
+                "_FSSrcBlend", "_FSDstBlend", "_FSZWrite");
         }
 
         [Test]
@@ -45,6 +47,38 @@ namespace fShader.Editor.Tests
             Assert.That(screenGlass, Is.Not.Null);
             Assert.That(coldMist, Is.Not.Null);
             Assert.That(coldMist.passCount, Is.EqualTo(1));
+        }
+
+        [TestCase("fShader/Lite/Ice", true)]
+        [TestCase("fShader/Plus/Ice", false)]
+        public void IceTransparentModeSynchronizesRenderState(string shaderName, bool lite)
+        {
+            Shader shader = Shader.Find(shaderName);
+            Assert.That(shader, Is.Not.Null, shaderName);
+            using (var material = new fShaderTestMaterial(shader))
+            {
+                material.Value.SetFloat("_FSIceTransparent", 1f);
+                fShaderIceSurfaceState.Sync(material.Value);
+
+                Assert.That(material.Value.IsKeywordEnabled("FSHADER_ICE_TRANSPARENT"), Is.True);
+                Assert.That(material.Value.renderQueue, Is.EqualTo((int)RenderQueue.Transparent));
+                Assert.That(material.Value.GetFloat("_FSDstBlend"), Is.EqualTo((float)BlendMode.OneMinusSrcAlpha));
+                Assert.That(material.Value.GetFloat("_FSZWrite"), Is.EqualTo(0f));
+                Assert.That(material.Value.GetTag("RenderType", false), Is.EqualTo("Transparent"));
+
+                material.Value.SetFloat("_FSIceTransparent", 0f);
+                fShaderIceSurfaceState.Sync(material.Value);
+                Assert.That(material.Value.IsKeywordEnabled("FSHADER_ICE_TRANSPARENT"), Is.False);
+                Assert.That(material.Value.renderQueue, Is.EqualTo((int)RenderQueue.Geometry));
+                Assert.That(material.Value.GetFloat("_FSDstBlend"), Is.EqualTo((float)BlendMode.Zero));
+                Assert.That(material.Value.GetFloat("_FSZWrite"), Is.EqualTo(1f));
+
+                material.Value.shader = Shader.Find(lite ? "fShader/Lite/Water" : "fShader/Plus/Water");
+                material.Value.SetFloat(fShaderPropertyNames.Mode, (float)fShaderMode.Water);
+                fShaderIceSurfaceState.Sync(material.Value);
+                Assert.That(material.Value.renderQueue, Is.EqualTo((int)RenderQueue.Transparent));
+                Assert.That(material.Value.GetTag("RenderType", false), Is.EqualTo("Transparent"));
+            }
         }
 
         [TestCase("Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteWater.shader")]

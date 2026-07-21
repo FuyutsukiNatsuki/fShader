@@ -17,7 +17,7 @@ namespace fShader.Editor
 
     public static class fShaderShaderCatalog
     {
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.1";
 
         public static readonly string[] EditionLabels = { "Lite", "Plus" };
         public static readonly string[] ModeLabels = { "Water", "Ice", "Glass" };
@@ -52,6 +52,12 @@ namespace fShader.Editor
             {
                 edition = fShaderEdition.Plus;
                 mode = fShaderMode.Water;
+                return true;
+            }
+            if (shaderName == "Hidden/fShader/Plus/IceScreenRefraction")
+            {
+                edition = fShaderEdition.Plus;
+                mode = fShaderMode.Ice;
                 return true;
             }
             if (shaderName == "Hidden/fShader/Plus/GlassScreenRefraction")

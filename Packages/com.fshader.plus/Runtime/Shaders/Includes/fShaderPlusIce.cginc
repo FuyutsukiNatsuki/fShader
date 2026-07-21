@@ -25,6 +25,7 @@ half _SparkleStrength;
 half _SparkleDensity;
 half _SparkleSize;
 half _SparkleDistance;
+half _RefractionStrength;
 
 half FSPlusIceHash(float3 value)
 {
@@ -79,6 +80,9 @@ void FSModeModifySurface(inout FSSurfaceData surface, FSVaryings input)
     surface.baseColor *= lerp(_IceColor.rgb, _AbsorptionColor.rgb, absorption);
     surface.modeMask = frost;
     surface.modeDetail = cracks;
+    #if defined(FSHADER_ICE_TRANSPARENT)
+        surface.alpha = saturate(surface.alpha + frost * _FrostColor.a * 0.42h + cracks * 0.18h + absorption * 0.12h);
+    #endif
 }
 
 half3 FSModeReflectionNormal(FSVaryings input, FSSurfaceData surface)

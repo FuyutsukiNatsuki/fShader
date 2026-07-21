@@ -1,4 +1,4 @@
-# fShader 1.0.0 Shader Property Reference
+# fShader 1.0.1 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
@@ -53,6 +53,7 @@ Screen Refraction ON時はInspectorが`Hidden/fShader/Lite/GlassScreenRefraction
 | `_WaterThickness`, `_DepthStrength`, `_DepthBias` | Plus | 手動/Height/Vertex深さ補助 |
 | `_RefractionStrength` | 両方 | LiteはProbe Distortion、Plus HiddenではScreen offset |
 | `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
+| `_FSScreenRefraction`, `_RefractionStrength` | Plus | Transparent Ice用の任意Screen Refraction |
 | `_FSScreenRefraction` | Plus | Heavy Screen Refraction切替 |
 
 Water Vertex ColorはR=Foam、G=Wave Weight、B=Depth Tint、A=Opacityです。
@@ -61,7 +62,9 @@ Water Vertex ColorはR=Foam、G=Wave Weight、B=Depth Tint、A=Opacityです。
 
 | Property | Edition | 意味 |
 |---|---|---|
-| `_IceColor`, `_IceThickness` | 両方 | 氷色と手動厚み |
+| `_FSIceTransparent` | 両方 | Opaque/Transparent切替（既定OFF） |
+| `_Opacity` | 両方 | Transparent Iceの基礎不透明度 |
+| `_IceColor`, `_IceThickness` | 両方 | 氷色と手動厚み。Transparent時は厚みが不透明度にも寄与 |
 | `_AbsorptionColor`, `_AbsorptionStrength` | Plus | View Angle吸収 |
 | `_FSIceFrost`, `_FrostMap`, `_FrostStrength` | 両方 | Frost機能 |
 | `_FrostColor`, `_FrostScaleA`, `_FrostScaleB`, `_FrostEdge` | Plus | 2-scale/edge Frost |
@@ -72,6 +75,7 @@ Water Vertex ColorはR=Foam、G=Wave Weight、B=Depth Tint、A=Opacityです。
 | `_FSIceSparkle`, `_SparkleStrength`, `_SparkleDistance` | 両方 | Sparkleと距離Fade |
 | `_SparkleDensity`, `_SparkleSize` | Plus | Plus Sparkle形状 |
 | `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
+| `_FSScreenRefraction`, `_RefractionStrength` | Plus | Transparent Ice用の任意Screen Refraction |
 
 Ice Vertex ColorはR=Frost、G=Crack、B=Sparkle、A=Thicknessです。
 
@@ -92,6 +96,7 @@ Ice Vertex ColorはR=Frost、G=Crack、B=Sparkle、A=Thicknessです。
 | `_CondensationFadeDistance` | Plus | Trail距離Fade |
 | `_CondensationNormalScale` | Plus | 結露Normal強度 |
 | `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
+| `_FSScreenRefraction`, `_RefractionStrength` | Plus | Transparent Ice用の任意Screen Refraction |
 | `_FSScreenRefraction` | Lite/Plus | Heavy Hidden Shader切替 |
 
 Glass Vertex ColorはR=Condensation、G=Thickness、B=Variation、A=Opacityです。
@@ -123,4 +128,4 @@ Shader名は`fShader/Effects/ColdMist`と`fShader/Effects/ColdMistPlus`です。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.0.0にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.0.1にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。

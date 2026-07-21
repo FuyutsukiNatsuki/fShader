@@ -1,4 +1,12 @@
 # Changelog
+
+## 1.0.1 - 2026-07-21
+
+- Added opt-in transparent rendering for Lite and Plus Ice while preserving Opaque as the default.
+- Made Ice Opacity functional in Transparent mode and increased opacity locally for thickness, Frost, and Cracks.
+- Added Inspector render-state synchronization, transparent sorting/overdraw guidance, and QA comparison objects.
+- Disabled Lite Ice ShadowCaster and Meta passes while Transparent mode is active.
+
 ## 1.0.0 - 2026-07-18
 
 - Prepared the first fShader release for Unity 2022.3.22f1 and VRChat SDK Worlds 3.10.4.

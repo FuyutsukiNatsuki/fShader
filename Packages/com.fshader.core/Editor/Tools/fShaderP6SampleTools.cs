@@ -85,13 +85,13 @@ namespace fShader.Editor
             Material liteIce = CreateLiteIce();
             Material liteGlass = CreateLiteGlass();
             Material liteGround = CreateGround(CoreAuthoring + "/Materials/Gallery Ground.mat");
-            CreateGalleryScene(CoreAuthoring + "/Scenes/fShader Lite Gallery.unity", "fShader Lite 1.0.0", liteWater, liteIce, liteGlass, liteGround);
+            CreateGalleryScene(CoreAuthoring + "/Scenes/fShader Lite Gallery.unity", "fShader Lite 1.0.1", liteWater, liteIce, liteGlass, liteGround);
 
             Material plusWater = CreatePlusMaterial("fShader/Plus/Water", PlusAuthoring + "/Materials/Plus Water Balanced.mat", new Color(0.12f, 0.58f, 0.72f, 0.72f));
             Material plusIce = CreatePlusMaterial("fShader/Plus/Ice", PlusAuthoring + "/Materials/Plus Ice Balanced.mat", new Color(0.62f, 0.9f, 1f, 1f));
             Material plusGlass = CreatePlusMaterial("fShader/Plus/Glass", PlusAuthoring + "/Materials/Plus Glass Balanced.mat", new Color(0.92f, 0.98f, 1f, 0.28f));
             Material plusGround = CreateGround(PlusAuthoring + "/Materials/Gallery Ground.mat");
-            CreateGalleryScene(PlusAuthoring + "/Scenes/fShader Plus Gallery.unity", "fShader Plus 1.0.0", plusWater, plusIce, plusGlass, plusGround);
+            CreateGalleryScene(PlusAuthoring + "/Scenes/fShader Plus Gallery.unity", "fShader Plus 1.0.1", plusWater, plusIce, plusGlass, plusGround);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
