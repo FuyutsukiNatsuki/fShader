@@ -22,9 +22,11 @@ namespace fShader.Editor.Tests
         [TestCase("fShader/Lite/Water", 0, 0, 1)]
         [TestCase("fShader/Lite/Ice", 0, 1, 3)]
         [TestCase("fShader/Lite/Glass", 0, 2, 1)]
+        [TestCase("fShader/Lite/Standard", 0, 3, 3)]
         [TestCase("fShader/Plus/Water", 1, 0, 1)]
         [TestCase("fShader/Plus/Ice", 1, 1, 1)]
         [TestCase("fShader/Plus/Glass", 1, 2, 1)]
+        [TestCase("fShader/Plus/Standard", 1, 3, 3)]
         public void PublicShaderImportsWithStableP0Contract(
             string shaderName,
             int expectedEdition,

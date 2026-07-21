@@ -45,7 +45,8 @@ namespace fShader.Editor.Tests
         {
             Shader shader = Shader.Find(shaderName);
             Assert.That(shader, Is.Not.Null, shaderName);
-            int expectedPasses = shaderName == "fShader/Lite/Ice" ? 3 : 1;
+            int expectedPasses =
+                shaderName == "fShader/Lite/Ice" || shaderName.EndsWith("/Standard") ? 3 : 1;
             Assert.That(shader.passCount, Is.EqualTo(expectedPasses), shaderName);
         }
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 - 2026-07-21
+
+- Added a new opaque Standard mode (PBR textures, reflection, and lighting only, with no transparency or mode-specific effects) alongside Water, Ice, and Glass.
+- Lite Standard ships FORWARD, ShadowCaster, and Meta passes so it casts shadows and bakes into lightmaps.
+- Added a one-click Template section to the Inspector that switches the shader and assigns the matching Gallery sample textures, importing the sample automatically when needed.
+- Extended the mode toolbar, keyword/render-state synchronization, and shader catalog to cover Standard.
+
 ## 1.0.1 - 2026-07-21
 
 - Added opt-in transparent rendering for Lite and Plus Ice while preserving Opaque as the default.

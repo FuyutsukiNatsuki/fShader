@@ -46,9 +46,13 @@ namespace fShader.Editor
             {
                 DrawIce(editor, properties, material, japanese);
             }
-            else
+            else if (mode == fShaderMode.Glass)
             {
                 DrawGlass(editor, properties, material, japanese);
+            }
+            else
+            {
+                DrawStandard(editor, properties, japanese);
             }
 
             DrawCostSummary(material, mode, japanese);
@@ -190,6 +194,19 @@ namespace fShader.Editor
             DrawProperty(editor, properties, "_FSScreenRefraction", japanese ? "Screen Refraction（Heavy）" : "Screen Refraction (Heavy)");
         }
 
+        private static void DrawStandard(
+            MaterialEditor editor,
+            MaterialProperty[] properties,
+            bool japanese)
+        {
+            EditorGUILayout.HelpBox(
+                japanese
+                    ? "Standardは特殊機能を持たない不透明PBRサーフェスです。透過・波・結露などはありません。色やテクスチャは「基本サーフェス」「PBR入力」で設定してください。"
+                    : "Standard is an opaque PBR surface with no special features (no transparency, waves, or condensation). Set colors and textures in the Surface and PBR sections.",
+                MessageType.Info);
+            DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約を使用" : "Use Vertex Color Contract");
+        }
+
         private static void DrawPresetButtons(
             MaterialEditor editor,
             fShaderMode mode,
@@ -260,7 +277,7 @@ namespace fShader.Editor
                 if (IsEnabled(material, "_FSIceFrost") && HasAssignedTexture(material, fShaderPropertyNames.FrostMap)) samples++;
                 if (IsEnabled(material, "_FSIceCracks") && HasAssignedTexture(material, fShaderPropertyNames.CrackMap)) samples++;
             }
-            else
+            else if (mode == fShaderMode.Glass)
             {
                 if (IsEnabled(material, "_FSGlassCondensation") && HasAssignedTexture(material, fShaderPropertyNames.CondensationMap)) samples++;
                 if (IsEnabled(material, "_FSGlassDropletNormal") && HasAssignedTexture(material, fShaderPropertyNames.CondensationNormal)) samples++;

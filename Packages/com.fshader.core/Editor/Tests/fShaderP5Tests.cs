@@ -59,9 +59,11 @@ namespace fShader.Editor.Tests
         [TestCase("fShader/Lite/Water", 1)]
         [TestCase("fShader/Lite/Ice", 3)]
         [TestCase("fShader/Lite/Glass", 1)]
+        [TestCase("fShader/Lite/Standard", 3)]
         [TestCase("fShader/Plus/Water", 1)]
         [TestCase("fShader/Plus/Ice", 1)]
         [TestCase("fShader/Plus/Glass", 1)]
+        [TestCase("fShader/Plus/Standard", 3)]
         public void PublicShadersKeepExpectedPassBudget(string shaderName, int expectedPasses)
         {
             Shader shader = Shader.Find(shaderName);
@@ -92,7 +94,7 @@ namespace fShader.Editor.Tests
         [Test]
         public void CatalogMarksReleaseVersion()
         {
-            Assert.That(fShaderShaderCatalog.Version, Is.EqualTo("1.0.1"));
+            Assert.That(fShaderShaderCatalog.Version, Is.EqualTo("1.1.0"));
         }
     }
 }

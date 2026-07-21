@@ -84,6 +84,7 @@ namespace fShader.Editor.Tests
         [TestCase("Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteWater.shader")]
         [TestCase("Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteIce.shader")]
         [TestCase("Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteGlass.shader")]
+        [TestCase("Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteStandard.shader")]
         public void StandardLiteShadersAvoidHeavyDependencies(string path)
         {
             string source = File.ReadAllText(path);

@@ -62,6 +62,7 @@ namespace fShader.Editor.Tests
         [TestCase("Packages/com.fshader.plus/Runtime/Shaders/Plus/fShaderPlusWater.shader")]
         [TestCase("Packages/com.fshader.plus/Runtime/Shaders/Plus/fShaderPlusIce.shader")]
         [TestCase("Packages/com.fshader.plus/Runtime/Shaders/Plus/fShaderPlusGlass.shader")]
+        [TestCase("Packages/com.fshader.plus/Runtime/Shaders/Plus/fShaderPlusStandard.shader")]
         public void StandardPlusShadersAvoidOptionalHeavyDependencies(string path)
         {
             string source = File.ReadAllText(path);

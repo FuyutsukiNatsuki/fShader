@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 - 2026-07-21
+
+- Added an opaque Plus Standard mode (PBR only) with Box Projected reflection and full LTCGI v2 support.
+- Plus Standard ships FORWARD, ShadowCaster, and Meta passes for shadow casting and lightmap baking.
+- Added one-click Templates for every edition and mode, including Standard, that assign the shared Gallery sample textures.
+- Updated the Core dependency to 1.1.0.
+
 ## 1.0.1 - 2026-07-21
 
 - Added opt-in transparent Plus Ice with view-angle absorption and local Frost/Crack opacity.

@@ -42,7 +42,10 @@ namespace fShader.Editor
                 return;
             }
 
-            DrawPresetButtons(editor, mode, japanese);
+            if (mode != fShaderMode.Standard)
+            {
+                DrawPresetButtons(editor, mode, japanese);
+            }
             if (mode == fShaderMode.Water)
             {
                 DrawWater(editor, properties, material, japanese);
@@ -51,9 +54,13 @@ namespace fShader.Editor
             {
                 DrawIce(editor, properties, material, japanese);
             }
-            else
+            else if (mode == fShaderMode.Glass)
             {
                 DrawGlass(editor, properties, material, japanese);
+            }
+            else
+            {
+                DrawStandard(editor, properties, japanese);
             }
 
             DrawCostSummary(material, mode, japanese);
@@ -97,7 +104,7 @@ namespace fShader.Editor
                 fShaderIceSurfaceState.Sync(material);
                 SyncScreenShader(material, fShaderMode.Ice);
             }
-            else
+            else if (mode == fShaderMode.Glass)
             {
                 bool condensation = IsEnabled(material, "_FSGlassCondensation") &&
                                     HasAssignedTexture(material, "_CondensationMap");
@@ -106,6 +113,11 @@ namespace fShader.Editor
                     condensation && IsEnabled(material, "_FSGlassDropletNormal") &&
                     HasAssignedTexture(material, "_CondensationNormal"));
                 SyncScreenShader(material, fShaderMode.Glass);
+            }
+            else
+            {
+                // Standard: opaque PBR only, no mode-specific keywords or screen shader.
+                fShaderIceSurfaceState.Sync(material);
             }
         }
 
@@ -261,6 +273,18 @@ namespace fShader.Editor
             DrawReflectionAndScreen(editor, properties, material, japanese);
         }
 
+        private static void DrawStandard(MaterialEditor editor, MaterialProperty[] properties, bool japanese)
+        {
+            EditorGUILayout.HelpBox(
+                japanese
+                    ? "Standardは特殊機能を持たない不透明PBRサーフェスです。透過・波・結露・Screen Refractionはありません。色やテクスチャは「基本サーフェス」「PBR入力」で設定してください。"
+                    : "Standard is an opaque PBR surface with no special features (no transparency, waves, condensation, or screen refraction). Set colors and textures in the Surface and PBR sections.",
+                MessageType.Info);
+            Header(japanese ? "反射" : "Reflection");
+            DrawProperty(editor, properties, "_FSBoxProjection", "Box Projected Probe");
+            DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約" : "Vertex Color Contract");
+        }
+
         private static void DrawReflectionAndScreen(MaterialEditor editor, MaterialProperty[] properties, Material material, bool japanese)
         {
             Header(japanese ? "反射・屈折" : "Reflection & Refraction");
@@ -299,7 +323,7 @@ namespace fShader.Editor
                 if (IsEnabled(material, "_FSIceFrost") && HasAssignedTexture(material, "_FrostMap")) samples += 2;
                 if (IsEnabled(material, "_FSIceCracks") && HasAssignedTexture(material, "_CrackMap")) samples++;
             }
-            else
+            else if (mode == fShaderMode.Glass)
             {
                 if (IsEnabled(material, "_FSGlassCondensation") && HasAssignedTexture(material, "_CondensationMap")) samples += 2;
                 if (IsEnabled(material, "_FSGlassDropletNormal") && HasAssignedTexture(material, "_CondensationNormal")) samples++;

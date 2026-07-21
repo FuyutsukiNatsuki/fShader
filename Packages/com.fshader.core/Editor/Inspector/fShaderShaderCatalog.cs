@@ -12,24 +12,27 @@ namespace fShader.Editor
     {
         Water = 0,
         Ice = 1,
-        Glass = 2
+        Glass = 2,
+        Standard = 3
     }
 
     public static class fShaderShaderCatalog
     {
-        public const string Version = "1.0.1";
+        public const string Version = "1.1.0";
 
         public static readonly string[] EditionLabels = { "Lite", "Plus" };
-        public static readonly string[] ModeLabels = { "Water", "Ice", "Glass" };
+        public static readonly string[] ModeLabels = { "Water", "Ice", "Glass", "Standard" };
 
         public static readonly string[] PublicShaderNames =
         {
             "fShader/Lite/Water",
             "fShader/Lite/Ice",
             "fShader/Lite/Glass",
+            "fShader/Lite/Standard",
             "fShader/Plus/Water",
             "fShader/Plus/Ice",
-            "fShader/Plus/Glass"
+            "fShader/Plus/Glass",
+            "fShader/Plus/Standard"
         };
 
         public static string GetShaderName(fShaderEdition edition, fShaderMode mode)
@@ -84,6 +87,10 @@ namespace fShader.Editor
             else if (shaderName.EndsWith("/Glass", StringComparison.Ordinal))
             {
                 mode = fShaderMode.Glass;
+            }
+            else if (shaderName.EndsWith("/Standard", StringComparison.Ordinal))
+            {
+                mode = fShaderMode.Standard;
             }
             else
             {

@@ -1,8 +1,8 @@
 # fShader
 
-fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ice・Glassシェーダーファミリーです。軽量な`fShader Lite (Core)`と、LTCGI・追加表現を備える`fShader Plus`を提供します。
+fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ice・Glass・Standardシェーダーファミリーです。軽量な`fShader Lite (Core)`と、LTCGI・追加表現を備える`fShader Plus`を提供します。
 
-## 最新版 1.0.1
+## 最新版 1.1.0
 
 - Unity 2022.3.22f1
 - VRChat SDK Worlds 3.10.4
@@ -11,7 +11,7 @@ fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ic
 - PlusのLTCGI依存: `at.pimaker.ltcgi >=1.6.3 <1.7.0`
 - Quest/Android、URP/HDRP、Deferredは対象外
 
-Unity 2022.3.22f1 + VRChat SDK 3.10.4でfShader 1.0.0はEditMode 73/73件に合格し、GitHub Public ReleaseとVPM一覧を公開済みです。1.0.1ではIce透過を追加しています。
+Unity 2022.3.22f1 + VRChat SDK 3.10.4でfShader 1.0.0はEditMode 73/73件に合格し、GitHub Public ReleaseとVPM一覧を公開済みです。1.0.1ではIce透過を追加しました。1.1.0では不透明PBRの新モード「Standard」と、各Edition・モードの設定とサンプルテクスチャをワンクリックで適用するテンプレート機能を追加しています。
 
 ## 導入
 

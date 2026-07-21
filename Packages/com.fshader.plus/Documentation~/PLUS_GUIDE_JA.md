@@ -1,8 +1,8 @@
-# fShader Plus 1.0.1 Guide
+# fShader Plus 1.1.0 Guide
 
 ## 要件
 
-- fShader Lite (Core) 1.0.1
+- fShader Lite (Core) 1.1.0
 - LTCGI `>=1.6.3 <1.7.0`
 - Unity 2022.3.22f1 / BRP Forward / Linear
 - VRChat SDK Worlds 3.10.4
@@ -23,14 +23,14 @@ PlusはBalancedを基準にします。Screen Refraction、LTCGI、Water 4 Waves
 2. `LTCGI Controller.prefab`をシーンへ配置します。
 3. Screen/Emitterを設定します。
 4. LTCGIのEditor toolでAffected Renderersを更新します。
-5. Plus WaterまたはGlassの`Lighting / LTCGI`をONにします。
+5. Plus Water/Glass/Standardの`Lighting / LTCGI`をONにします。
 6. Diffuse、Specular、Max Brightnessを調整します。
 
-Glassは結露部分だけDiffuseを増やせます。Iceは1.0.1ではLTCGI非対応です。Controllerが見つからない場合はInspectorが警告します。
+Glassは結露部分だけDiffuseを増やせます。Standard（不透明PBR）もWater/Glassと同様にLTCGIへ対応します。Iceは1.1.0でもLTCGI非対応です。Controllerが見つからない場合はInspectorが警告します。
 
 ## 1.7.xを使わない理由
 
-LTCGI 1.7.xには任意のVRC Light Volumes連携AdapterとUdonSharpProgramAssetが含まれます。VRCLightVolumes本体がないプロジェクトでAdapterのBehaviour定義が条件コンパイルから消えると、関連ProgramAssetエラーが発生する組み合わせを確認しています。fShader 1.0.1はAPI v2を持つLTCGI 1.6.3へ固定します。
+LTCGI 1.7.xには任意のVRC Light Volumes連携AdapterとUdonSharpProgramAssetが含まれます。VRCLightVolumes本体がないプロジェクトでAdapterのBehaviour定義が条件コンパイルから消えると、関連ProgramAssetエラーが発生する組み合わせを確認しています。fShader 1.1.0はAPI v2を持つLTCGI 1.6.3へ固定します。
 
 ## Screen Refraction
 

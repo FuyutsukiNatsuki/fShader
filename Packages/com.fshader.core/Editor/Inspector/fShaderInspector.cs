@@ -38,6 +38,7 @@ namespace fShader.Editor
             }
 
             DrawVariantToolbar(materialEditor, ref properties, ref firstMaterial, edition, mode);
+            fShaderTemplateLibrary.DrawSection(materialEditor, japanese);
 
             EditorGUI.BeginChangeCheck();
             DrawSurface(materialEditor, properties);
@@ -320,19 +321,24 @@ namespace fShader.Editor
         {
             foreach (Material material in materials)
             {
-                SetKeyword(material, "FSHADER_BASEMAP", HasAssignedTexture(material, fShaderPropertyNames.BaseMap));
-                SetKeyword(material, "FSHADER_MASKMAP", HasAssignedTexture(material, fShaderPropertyNames.ARMHMap));
-                SetKeyword(material, "FSHADER_NORMALMAP", HasAssignedTexture(material, fShaderPropertyNames.NormalMap));
-                SetKeyword(
-                    material,
-                    "FSHADER_DEBUG",
-                    material.HasProperty(fShaderP1PropertyNames.DebugView) &&
-                    material.GetFloat(fShaderP1PropertyNames.DebugView) > 0.5f);
-                fShaderP2Inspector.SyncKeywords(material);
-                fShaderP3Inspector.SyncKeywords(material);
-                fShaderP4Inspector.SyncKeywords(material);
-                fShaderIceSurfaceState.Sync(material);
+                SyncMaterial(material);
             }
+        }
+
+        public static void SyncMaterial(Material material)
+        {
+            SetKeyword(material, "FSHADER_BASEMAP", HasAssignedTexture(material, fShaderPropertyNames.BaseMap));
+            SetKeyword(material, "FSHADER_MASKMAP", HasAssignedTexture(material, fShaderPropertyNames.ARMHMap));
+            SetKeyword(material, "FSHADER_NORMALMAP", HasAssignedTexture(material, fShaderPropertyNames.NormalMap));
+            SetKeyword(
+                material,
+                "FSHADER_DEBUG",
+                material.HasProperty(fShaderP1PropertyNames.DebugView) &&
+                material.GetFloat(fShaderP1PropertyNames.DebugView) > 0.5f);
+            fShaderP2Inspector.SyncKeywords(material);
+            fShaderP3Inspector.SyncKeywords(material);
+            fShaderP4Inspector.SyncKeywords(material);
+            fShaderIceSurfaceState.Sync(material);
         }
 
         private static bool HasAssignedTexture(Material material, string propertyName)
@@ -414,21 +420,42 @@ namespace fShader.Editor
             if (mode != fShaderMode.Ice)
             {
                 string shaderName = material.shader != null ? material.shader.name : string.Empty;
-                if ((mode == fShaderMode.Water || mode == fShaderMode.Glass) &&
-                    fShaderShaderCatalog.TryParse(shaderName, out _, out _))
+                if (!fShaderShaderCatalog.TryParse(shaderName, out _, out _))
                 {
-                    bool changedToTransparent = false;
+                    return;
+                }
+
+                if (mode == fShaderMode.Water || mode == fShaderMode.Glass)
+                {
+                    // Restore the transparent queue if the material was previously a transparent Ice.
+                    bool changedTransparent = false;
                     if (material.GetTag("RenderType", false) != "Transparent")
                     {
                         material.SetOverrideTag("RenderType", "Transparent");
-                        changedToTransparent = true;
+                        changedTransparent = true;
                     }
                     if (material.renderQueue != (int)RenderQueue.Transparent)
                     {
                         material.renderQueue = (int)RenderQueue.Transparent;
-                        changedToTransparent = true;
+                        changedTransparent = true;
                     }
-                    if (changedToTransparent) EditorUtility.SetDirty(material);
+                    if (changedTransparent) EditorUtility.SetDirty(material);
+                }
+                else if (mode == fShaderMode.Standard)
+                {
+                    // Standard is always opaque; restore the geometry queue after switching from a transparent mode.
+                    bool changedOpaque = false;
+                    if (material.GetTag("RenderType", false) != "Opaque")
+                    {
+                        material.SetOverrideTag("RenderType", "Opaque");
+                        changedOpaque = true;
+                    }
+                    if (material.renderQueue != (int)RenderQueue.Geometry)
+                    {
+                        material.renderQueue = (int)RenderQueue.Geometry;
+                        changedOpaque = true;
+                    }
+                    if (changedOpaque) EditorUtility.SetDirty(material);
                 }
                 return;
             }

@@ -1,13 +1,13 @@
-# fShader 1.0.1 Shader Property Reference
+# fShader 1.1.0 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
 ## Shader名
 
-| Edition | Water | Ice | Glass |
-|---|---|---|---|
-| Lite | `fShader/Lite/Water` | `fShader/Lite/Ice` | `fShader/Lite/Glass` |
-| Plus | `fShader/Plus/Water` | `fShader/Plus/Ice` | `fShader/Plus/Glass` |
+| Edition | Water | Ice | Glass | Standard |
+|---|---|---|---|---|
+| Lite | `fShader/Lite/Water` | `fShader/Lite/Ice` | `fShader/Lite/Glass` | `fShader/Lite/Standard` |
+| Plus | `fShader/Plus/Water` | `fShader/Plus/Ice` | `fShader/Plus/Glass` | `fShader/Plus/Standard` |
 
 Screen Refraction ON時はInspectorが`Hidden/fShader/Lite/GlassScreenRefraction`、`Hidden/fShader/Plus/WaterScreenRefraction`、`Hidden/fShader/Plus/GlassScreenRefraction`へ切り替えます。Hidden Shaderを直接選択しないでください。
 
@@ -101,9 +101,20 @@ Ice Vertex ColorはR=Frost、G=Crack、B=Sparkle、A=Thicknessです。
 
 Glass Vertex ColorはR=Condensation、G=Thickness、B=Variation、A=Opacityです。
 
+## Standard
+
+Standardは不透明PBR面で、Mode固有Propertyを持たず「共通Property」だけを使用します。透過、波、霜、ひび、結露、Screen Refractionはありません。Plus Standardのみ以下を追加します。
+
+| Property | Edition | 意味 |
+|---|---|---|
+| `_FSBoxProjection` | Plus | Box Projected Reflection Probe |
+| `_LTCGI`ほか`_LTCGI*` | Plus | LTCGI寄与（下記「LTCGI」参照） |
+
+Lite Standardはbox projectionもLTCGIも持ちません。
+
 ## LTCGI
 
-Plus Water/Glassのみです。
+Plus Water/Glass/Standardです。
 
 | Property | 意味 |
 |---|---|
@@ -128,4 +139,4 @@ Shader名は`fShader/Effects/ColdMist`と`fShader/Effects/ColdMistPlus`です。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.0.1にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.1.0にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
