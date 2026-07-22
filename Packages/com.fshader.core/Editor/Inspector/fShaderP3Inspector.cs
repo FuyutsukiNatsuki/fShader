@@ -245,7 +245,7 @@ namespace fShader.Editor
                 IsEnabled(material, "_FSScreenRefraction") ? MessageType.Warning : MessageType.Info);
             if (GUILayout.Button(japanese ? "選択中のIceへCold Mist Plusを作成" : "Create Cold Mist Plus for Selected Ice"))
             {
-                fShaderColdMistPlusWizard.Create();
+                fShaderColdMistPlusWizard.CreateForMaterial(material, japanese);
             }
         }
 

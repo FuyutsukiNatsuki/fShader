@@ -21,7 +21,18 @@ namespace fShader.Editor
         [MenuItem("Tools/fShader/Create Cold Mist Lite for Selected Ice")]
         public static void Create()
         {
-            GameObject selected = Selection.activeGameObject;
+            CreateForGameObject(Selection.activeGameObject);
+        }
+
+        // Entry from the material Inspector: resolve the host object from the current
+        // selection, or from scene renderers that use this material.
+        public static void CreateForMaterial(Material material, bool japanese)
+        {
+            fShaderColdMistShared.CreateForMaterial(material, japanese, "fShader Cold Mist", CreateForGameObject);
+        }
+
+        public static void CreateForGameObject(GameObject selected)
+        {
             MeshRenderer sourceRenderer = selected != null
                 ? selected.GetComponent<MeshRenderer>()
                 : null;

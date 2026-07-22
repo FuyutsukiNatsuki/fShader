@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 - 2026-07-22
+
+- Improved the "Create Cold Mist for Selected Ice" button: when pressed while editing a material, it now finds the scene meshes that use that material and creates the emitter for one (a picker appears when several match), instead of requiring the Ice GameObject to be the active selection. Cold Mist remains a child ParticleSystem GameObject parented to the Ice renderer.
+
 ## 1.2.0 - 2026-07-22
 
 - Added a per-material Render Queue override (Rendering section): the automatic per-mode queue (opaque 2000 / transparent 3000) is used until Custom Render Queue is enabled, then any absolute value can be set to hand-order overlapping transparency.

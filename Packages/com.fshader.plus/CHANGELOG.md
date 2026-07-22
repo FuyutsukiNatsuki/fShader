@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 - 2026-07-22
+
+- The Plus Ice "Create Cold Mist Plus" button now auto-targets scene objects that use the material (with a picker when several match) instead of requiring the Ice GameObject to be selected.
+- Updated the Core dependency to 1.2.1.
+
 ## 1.2.0 - 2026-07-22
 
 - Added the per-material Render Queue override and an optional Transparent ZWrite toggle to Plus Water and Glass (and their Screen Refraction variants) for hand-tuning overlapping transparency.

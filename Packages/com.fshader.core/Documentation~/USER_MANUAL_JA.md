@@ -1,8 +1,8 @@
-# fShader 1.2.0 User Manual
+# fShader 1.2.1 User Manual
 
 ## 1. 対応環境
 
-fShader 1.2.0はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
+fShader 1.2.1はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
 
 Quest/Android、URP/HDRP、Deferred Rendering、VRChat Avatarは正式対象外です。PlusはLTCGI 1.6.3以上1.7.0未満を必要とします。
 
@@ -57,11 +57,13 @@ Liteは2方向Wave Normal、最大2頂点波、Reflection Probe、Fresnel、Foam
 
 IceはFrost、Crack、Fake Subsurface/Back Light、Sparkleを備えます。1.0.1から`Transparent Ice`をONにするとOpacity、厚み、Frost、Crackを反映した半透明描画になります。既定のOpaqueは1.0.0互換で最軽量です。PlusではTransparent時のみ任意のScreen Refractionも利用できます。透明面の重なり、Mirror、広い画面占有では描画順とOverdrawに注意してください。
 
-冷気煙はShader単体ではなくParticleSystemを生成します。
+冷気煙はShader単体ではなく、Ice GameObjectの子として生成する**ParticleSystem**（子GameObject）です。マテリアルの機能ではありません。
 
-1. シーンでIceのGameObject（MeshRendererとMeshFilterを持つもの）を選択します。
-2. Liteは`Tools > fShader > Create Cold Mist Lite for Selected Ice`、Plusは`Create Cold Mist Plus for Selected Ice`を実行します。ボタンは選択中のIce GameObjectに対してそのままウィザードを実行します。
-3. 生成されたParticleSystemの範囲と色を確認します。
+1. シーンにIce用マテリアルを貼ったメッシュ（MeshRendererとMeshFilterを持つGameObject）を配置します。
+2. インスペクターの「選択中のIceへCold Mistを作成」ボタン、または`Tools > fShader > Create Cold Mist ...`メニューを実行します。
+   - Hierarchyでそのメッシュを選択していれば、そのオブジェクトへ生成します。
+   - 1.2.1以降、マテリアルを編集中（GameObject未選択）でも、開いているシーンからそのマテリアルを使うメッシュを自動検索します（複数あれば一覧から選択）。シーンに該当メッシュが無い場合は案内ダイアログを表示します。
+3. 生成されたParticleSystem（Ice配下の子GameObject）の範囲と色を確認します。
 
 Liteは最大24粒子、Plusは最大64粒子が既定です。生成物にruntime MonoBehaviourは残りません。
 
@@ -89,7 +91,7 @@ Water/Glassには「透過ZWrite（重なり対策） (Transparent ZWrite)」ト
 
 ## 10. Plus LTCGI
 
-Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.2.0では非対応です。
+Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.2.1では非対応です。
 
 LTCGIとScreen Refraction、Water 4 Wavesを同時に使う構成はHeavyです。まず個別にON/OFF測定してください。詳しくはPlusパッケージの`Documentation~/PLUS_GUIDE_JA.md`を参照してください。
 
