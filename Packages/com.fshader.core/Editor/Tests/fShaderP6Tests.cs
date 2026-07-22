@@ -11,9 +11,9 @@ namespace fShader.Editor.Tests
         {
             string core = File.ReadAllText("Packages/com.fshader.core/package.json");
             string plus = File.ReadAllText("Packages/com.fshader.plus/package.json");
-            StringAssert.Contains("\"version\": \"1.2.1\"", core);
-            StringAssert.Contains("\"version\": \"1.2.1\"", plus);
-            StringAssert.Contains("\"com.fshader.core\": \"1.2.1\"", plus);
+            StringAssert.Contains("\"version\": \"1.2.2\"", core);
+            StringAssert.Contains("\"version\": \"1.2.2\"", plus);
+            StringAssert.Contains("\"com.fshader.core\": \"1.2.2\"", plus);
         }
 
         [Test]

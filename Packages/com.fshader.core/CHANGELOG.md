@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 - 2026-07-22
+
+- Removed the Cold Mist feature from Lite and Plus: the particle emitter wizards, the `fShader/Effects/ColdMist` and `fShader/Effects/ColdMistPlus` shaders, the Ice Inspector buttons, and the Tools menu items are all gone. Cold Mist was difficult to fit to objects of varying size; use your own ParticleSystem if you want a cold-mist effect.
+
 ## 1.2.1 - 2026-07-22
 
 - Improved the "Create Cold Mist for Selected Ice" button: when pressed while editing a material, it now finds the scene meshes that use that material and creates the emitter for one (a picker appears when several match), instead of requiring the Ice GameObject to be the active selection. Cold Mist remains a child ParticleSystem GameObject parented to the Ice renderer.

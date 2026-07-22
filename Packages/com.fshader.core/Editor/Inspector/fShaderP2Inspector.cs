@@ -166,10 +166,6 @@ namespace fShader.Editor
             DrawProperty(editor, properties, fShaderPropertyNames.SparkleStrength, japanese ? "輝点強度" : "Sparkle Strength");
             DrawProperty(editor, properties, "_SparkleDistance", japanese ? "輝点Fade距離" : "Sparkle Fade Distance");
             DrawProperty(editor, properties, "_FSVertexColor", japanese ? "Vertex Color契約を使用" : "Use Vertex Color Contract");
-            if (GUILayout.Button(japanese ? "選択中のIceへCold Mist Liteを作成" : "Create Cold Mist Lite for Selected Ice"))
-            {
-                fShaderColdMistWizard.CreateForMaterial(material, japanese);
-            }
         }
 
         private static void DrawGlass(

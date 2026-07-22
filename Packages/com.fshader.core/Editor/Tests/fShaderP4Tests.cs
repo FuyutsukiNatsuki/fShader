@@ -63,32 +63,6 @@ namespace fShader.Editor.Tests
         }
 
         [Test]
-        public void ColdMistPlusKeepsOneLightweightTransparentPass()
-        {
-            Shader shader = Shader.Find("fShader/Effects/ColdMistPlus");
-            Assert.That(shader, Is.Not.Null);
-            Assert.That(shader.passCount, Is.EqualTo(1));
-            string source = File.ReadAllText("Packages/com.fshader.core/Runtime/Shaders/Effects/fShaderColdMistPlus.shader");
-            StringAssert.DoesNotContain("GrabPass", source);
-            StringAssert.DoesNotContain("CameraDepth", source);
-            StringAssert.DoesNotContain("ForwardAdd", source);
-        }
-
-        [Test]
-        public void ColdMistPlusWizardUsesBoundedDefaults()
-        {
-            string source = File.ReadAllText("Packages/com.fshader.core/Editor/Tools/fShaderColdMistPlusWizard.cs");
-            StringAssert.Contains("main.maxParticles = 64", source);
-            StringAssert.Contains("emission.rateOverTime = 12f", source);
-            StringAssert.Contains("new ParticleSystem.MinMaxCurve(2f, 4f)", source);
-            StringAssert.Contains("noise.quality = ParticleSystemNoiseQuality.Low", source);
-            StringAssert.Contains("collision.enabled = false", source);
-            StringAssert.Contains("trails.enabled = false", source);
-            StringAssert.Contains("subEmitters.enabled = false", source);
-            StringAssert.DoesNotContain("MonoBehaviour", source);
-        }
-
-        [Test]
         public void PackagePinsSupportedLTCGIVersion()
         {
             string plusPackage = File.ReadAllText("Packages/com.fshader.plus/package.json");

@@ -1,4 +1,4 @@
-# fShader 1.2.1 Shader Property Reference
+# fShader 1.2.2 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
@@ -129,19 +129,10 @@ Plus Water/Glass/Standardです。
 | `_LTCGIMaxBrightness` | スパイク抑制上限 |
 | `_LTCGICondensationDiffuse` | Glass結露のdiffuse boost |
 
-## Cold Mist
-
-| Property | Shader | 意味 |
-|---|---|---|
-| `_TintColor`, `_Opacity`, `_EdgePower` | Lite/Plus | 色、透明度、edge softness |
-| `_NoiseScale`, `_NoiseStrength`, `_FlowSpeed` | Plus | 低周波noise |
-
-Shader名は`fShader/Effects/ColdMist`と`fShader/Effects/ColdMistPlus`です。
-
 ## 内部PropertyとKeyword
 
 `_FSVersion`、`_FSEdition`、`_FSMode`、`_FSFeatureFlags`はInspectorとMigration用です。直接変更しないでください。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.2.1にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.2.2にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。

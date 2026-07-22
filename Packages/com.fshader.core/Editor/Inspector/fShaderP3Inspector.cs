@@ -243,10 +243,6 @@ namespace fShader.Editor
                     ? "Screen RefractionはTransparent Ice専用の共有GrabPass機能です。通常はOFFを推奨します。"
                     : "Screen Refraction is a shared GrabPass feature for Transparent Ice. Keep it OFF for normal use.",
                 IsEnabled(material, "_FSScreenRefraction") ? MessageType.Warning : MessageType.Info);
-            if (GUILayout.Button(japanese ? "選択中のIceへCold Mist Plusを作成" : "Create Cold Mist Plus for Selected Ice"))
-            {
-                fShaderColdMistPlusWizard.CreateForMaterial(material, japanese);
-            }
         }
 
         private static void DrawGlass(MaterialEditor editor, MaterialProperty[] properties, Material material, bool japanese)

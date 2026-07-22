@@ -18,7 +18,7 @@ namespace fShader.Editor
 
     public static class fShaderShaderCatalog
     {
-        public const string Version = "1.2.1";
+        public const string Version = "1.2.2";
 
         public static readonly string[] EditionLabels = { "Lite", "Plus" };
         public static readonly string[] ModeLabels = { "Water", "Ice", "Glass", "Standard" };

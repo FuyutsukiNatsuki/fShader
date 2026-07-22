@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2 - 2026-07-22
+
+- Removed the Cold Mist Plus feature (wizard, `fShader/Effects/ColdMistPlus` shader, Ice Inspector button, and Tools menu item).
+- Updated the Core dependency to 1.2.2.
+
 ## 1.2.1 - 2026-07-22
 
 - The Plus Ice "Create Cold Mist Plus" button now auto-targets scene objects that use the material (with a picker when several match) instead of requiring the Ice GameObject to be selected.

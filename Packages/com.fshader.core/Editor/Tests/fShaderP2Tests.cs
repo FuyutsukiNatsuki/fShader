@@ -40,13 +40,10 @@ namespace fShader.Editor.Tests
         }
 
         [Test]
-        public void OptionalGlassScreenShaderAndColdMistImport()
+        public void OptionalGlassScreenShaderImports()
         {
             Shader screenGlass = Shader.Find("Hidden/fShader/Lite/GlassScreenRefraction");
-            Shader coldMist = Shader.Find("fShader/Effects/ColdMist");
             Assert.That(screenGlass, Is.Not.Null);
-            Assert.That(coldMist, Is.Not.Null);
-            Assert.That(coldMist.passCount, Is.EqualTo(1));
         }
 
         [TestCase("fShader/Lite/Ice", true)]
