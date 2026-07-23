@@ -43,6 +43,7 @@ Shader "Hidden/fShader/Plus/GlassScreenRefraction"
         _LTCGIMaxBrightness ("LTCGI Max Brightness", Range(0.1, 10)) = 2
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _Cull ("Cull", Float) = 2
         [HideInInspector] _FSTransparentZWrite ("Transparent ZWrite", Float) = 0
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
@@ -57,7 +58,7 @@ Shader "Hidden/fShader/Plus/GlassScreenRefraction"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite [_FSTransparentZWrite] ZTest LEqual Blend Off
+            Cull [_Cull] ZWrite [_FSTransparentZWrite] ZTest LEqual Blend Off
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert

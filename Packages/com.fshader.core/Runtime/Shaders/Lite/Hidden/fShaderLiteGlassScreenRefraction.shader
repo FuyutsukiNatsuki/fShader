@@ -27,6 +27,7 @@ Shader "Hidden/fShader/Lite/GlassScreenRefraction"
         [Toggle] _FSVertexColor ("Use Vertex Color", Float) = 0
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _Cull ("Cull", Float) = 2
         [HideInInspector] _FSTransparentZWrite ("Transparent ZWrite", Float) = 0
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.3
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 0
@@ -41,7 +42,7 @@ Shader "Hidden/fShader/Lite/GlassScreenRefraction"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite [_FSTransparentZWrite] ZTest LEqual Blend Off
+            Cull [_Cull] ZWrite [_FSTransparentZWrite] ZTest LEqual Blend Off
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert

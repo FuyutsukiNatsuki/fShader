@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.3 - 2026-07-22
+
+- Added double-sided rendering (Cull selector) to all Plus shaders, including the Screen Refraction variants, with correct back-face normals.
+- Updated the Core dependency to 1.2.3.
+
 ## 1.2.2 - 2026-07-22
 
 - Removed the Cold Mist Plus feature (wizard, `fShader/Effects/ColdMistPlus` shader, Ice Inspector button, and Tools menu item).

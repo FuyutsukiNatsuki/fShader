@@ -258,11 +258,23 @@ half4 FSResolveDebug(FSSurfaceData surface, FSVaryings input)
     return half4(input.vertexColor.aaa, 1.0h);
 }
 
-half4 FSFragOpaque(FSVaryings input) : SV_Target
+void FSApplyDoubleSided(inout FSSurfaceData surface, bool isFrontFace)
+{
+    // Back faces (Cull Off / double-sided) point away from the camera; flip the
+    // shading normal so lighting and reflection stay correct. With the default
+    // Cull Back only front faces render, so isFrontFace is always true (no change).
+    if (!isFrontFace)
+    {
+        surface.normalWS = -surface.normalWS;
+    }
+}
+
+half4 FSFragOpaque(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     FSSurfaceData surface = FSSampleSurface(input);
+    FSApplyDoubleSided(surface, isFrontFace);
 
     #if defined(FSHADER_DEBUG)
         half4 debugColor = FSResolveDebug(surface, input);
@@ -275,11 +287,12 @@ half4 FSFragOpaque(FSVaryings input) : SV_Target
     return color;
 }
 
-half4 FSFragTransparent(FSVaryings input) : SV_Target
+half4 FSFragTransparent(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     FSSurfaceData surface = FSSampleSurface(input);
+    FSApplyDoubleSided(surface, isFrontFace);
 
     #if defined(FSHADER_DEBUG)
         half4 debugColor = FSResolveDebug(surface, input);
@@ -294,12 +307,12 @@ half4 FSFragTransparent(FSVaryings input) : SV_Target
     return color;
 }
 
-half4 FSFragIce(FSVaryings input) : SV_Target
+half4 FSFragIce(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     #if defined(FSHADER_ICE_TRANSPARENT)
-        return FSFragTransparent(input);
+        return FSFragTransparent(input, isFrontFace);
     #else
-        return FSFragOpaque(input);
+        return FSFragOpaque(input, isFrontFace);
     #endif
 }
 
@@ -324,11 +337,12 @@ float2 FSRefractedScreenUV(FSVaryings input, FSSurfaceData surface, half strengt
 }
 
 #if defined(FSHADER_SCREEN_GLASS)
-half4 FSFragGlassScreen(FSVaryings input) : SV_Target
+half4 FSFragGlassScreen(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     FSSurfaceData surface = FSSampleSurface(input);
+    FSApplyDoubleSided(surface, isFrontFace);
 
     #if defined(FSHADER_DEBUG)
         half4 debugColor = FSResolveDebug(surface, input);
@@ -347,11 +361,12 @@ half4 FSFragGlassScreen(FSVaryings input) : SV_Target
 #endif
 
 #if defined(FSHADER_SCREEN_WATER)
-half4 FSFragWaterScreen(FSVaryings input) : SV_Target
+half4 FSFragWaterScreen(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     FSSurfaceData surface = FSSampleSurface(input);
+    FSApplyDoubleSided(surface, isFrontFace);
 
     #if defined(FSHADER_DEBUG)
         half4 debugColor = FSResolveDebug(surface, input);
@@ -375,11 +390,12 @@ half4 FSFragWaterScreen(FSVaryings input) : SV_Target
 #endif
 
 #if defined(FSHADER_SCREEN_ICE)
-half4 FSFragIceScreen(FSVaryings input) : SV_Target
+half4 FSFragIceScreen(FSVaryings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     FSSurfaceData surface = FSSampleSurface(input);
+    FSApplyDoubleSided(surface, isFrontFace);
 
     #if defined(FSHADER_DEBUG)
         half4 debugColor = FSResolveDebug(surface, input);

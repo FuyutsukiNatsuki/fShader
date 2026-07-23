@@ -24,6 +24,7 @@ Shader "fShader/Plus/Standard"
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _Cull ("Cull", Float) = 2
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
         [HideInInspector] _FSMode ("fShader Mode", Float) = 3
@@ -36,7 +37,7 @@ Shader "fShader/Plus/Standard"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite On ZTest LEqual Blend Off
+            Cull [_Cull] ZWrite On ZTest LEqual Blend Off
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert
@@ -59,7 +60,7 @@ Shader "fShader/Plus/Standard"
         {
             Name "SHADOWCASTER"
             Tags { "LightMode"="ShadowCaster" }
-            ZWrite On ZTest LEqual Cull Back
+            ZWrite On ZTest LEqual Cull [_Cull]
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSShadowVertex

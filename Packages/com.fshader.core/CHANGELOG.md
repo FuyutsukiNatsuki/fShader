@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3 - 2026-07-22
+
+- Added double-sided rendering: every shader now exposes a Cull selector (Double-Sided / Back Only / Front Only) in the Rendering section, defaulting to Cull Back (front only, unchanged from before).
+- Back faces flip the shading normal via SV_IsFrontFace so lighting and reflection stay correct when double-sided; ShadowCaster passes follow the same cull mode.
+- Added a warning when double-sided is combined with a transparent mode (overdraw and intra-object sorting), and the `_Cull` property to the property reference.
+
 ## 1.2.2 - 2026-07-22
 
 - Removed the Cold Mist feature from Lite and Plus: the particle emitter wizards, the `fShader/Effects/ColdMist` and `fShader/Effects/ColdMistPlus` shaders, the Ice Inspector buttons, and the Tools menu items are all gone. Cold Mist was difficult to fit to objects of varying size; use your own ParticleSystem if you want a cold-mist effect.

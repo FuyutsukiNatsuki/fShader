@@ -1,4 +1,4 @@
-# fShader 1.2.2 Shader Property Reference
+# fShader 1.2.3 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
@@ -30,6 +30,7 @@ Screen Refraction ON時はInspectorが`Hidden/fShader/Lite/GlassScreenRefraction
 | `_FSVertexColor` | Toggle | Mode別Vertex Color契約を有効化 |
 | `_FSDebugView` | Float | Inspector管理のDebug View |
 | `_FSQueueOverride` | Toggle | 全fShader Shaderに存在。カスタムレンダーキュー有効化。OFF時はMode別の自動キュー（不透明2000 / 透過3000）、ON時はMaterialのRender Queueを絶対値（0–5000）で使用 |
+| `_Cull` | Float(CullMode) | 全fShader Shaderに存在。0=Off（両面）、1=Front（裏面のみ）、2=Back（表面のみ・既定）。両面時は裏面の陰影用に法線を自動反転 |
 
 レンダーキューは既定でMode別に自動決定され（不透明2000 / 透過3000）、`_FSQueueOverride`をONにした時だけMaterialのRender Queueを絶対値として使用します。
 
@@ -135,4 +136,4 @@ Plus Water/Glass/Standardです。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.2.2にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.2.3にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。

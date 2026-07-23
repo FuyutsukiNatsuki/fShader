@@ -54,6 +54,7 @@ Shader "Hidden/fShader/Plus/IceScreenRefraction"
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _Cull ("Cull", Float) = 2
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.5
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 1
         [HideInInspector] _FSMode ("fShader Mode", Float) = 1
@@ -70,7 +71,7 @@ Shader "Hidden/fShader/Plus/IceScreenRefraction"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite Off ZTest LEqual Blend Off
+            Cull [_Cull] ZWrite Off ZTest LEqual Blend Off
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert

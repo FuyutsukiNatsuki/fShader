@@ -34,6 +34,7 @@ Shader "fShader/Lite/Ice"
 
         [HideInInspector] _FSDebugView ("Debug View", Float) = 0
         [HideInInspector] _FSQueueOverride ("Queue Override", Float) = 0
+        [HideInInspector] _Cull ("Cull", Float) = 2
         [HideInInspector] _FSVersion ("fShader Version", Float) = 0.3
         [HideInInspector] _FSEdition ("fShader Edition", Float) = 0
         [HideInInspector] _FSMode ("fShader Mode", Float) = 1
@@ -49,7 +50,7 @@ Shader "fShader/Lite/Ice"
         {
             Name "FORWARD"
             Tags { "LightMode"="ForwardBase" }
-            Cull Back ZWrite [_FSZWrite] ZTest LEqual Blend [_FSSrcBlend] [_FSDstBlend]
+            Cull [_Cull] ZWrite [_FSZWrite] ZTest LEqual Blend [_FSSrcBlend] [_FSDstBlend]
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSVert
@@ -76,7 +77,7 @@ Shader "fShader/Lite/Ice"
         {
             Name "SHADOWCASTER"
             Tags { "LightMode"="ShadowCaster" }
-            ZWrite On ZTest LEqual Cull Back
+            ZWrite On ZTest LEqual Cull [_Cull]
             CGPROGRAM
             #pragma target 3.0
             #pragma vertex FSShadowVertex

@@ -268,6 +268,42 @@ namespace fShader.Editor
                     MessageType.None);
             }
 
+            if (material.HasProperty("_Cull"))
+            {
+                EditorGUILayout.Space(3f);
+                string[] cullLabels = japanese
+                    ? new[] { "両面表示 (Cull Off)", "裏面のみ (Cull Front)", "表面のみ (Cull Back)" }
+                    : new[] { "Double-Sided (Cull Off)", "Back Only (Cull Front)", "Front Only (Cull Back)" };
+                int currentCull = Mathf.Clamp(Mathf.RoundToInt(material.GetFloat("_Cull")), 0, 2);
+                EditorGUI.BeginChangeCheck();
+                int nextCull = EditorGUILayout.Popup(T("カリング / 面", "Culling / Faces"), currentCull, cullLabels);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObjects(materials, "fShader Cull Mode");
+                    foreach (Material target in materials)
+                    {
+                        if (target.HasProperty("_Cull")) target.SetFloat("_Cull", nextCull);
+                        EditorUtility.SetDirty(target);
+                    }
+                    currentCull = nextCull;
+                }
+
+                bool transparentMode = false;
+                if (material.HasProperty(fShaderPropertyNames.Mode))
+                {
+                    fShaderMode cullMode = (fShaderMode)Mathf.RoundToInt(material.GetFloat(fShaderPropertyNames.Mode));
+                    transparentMode = cullMode == fShaderMode.Water || cullMode == fShaderMode.Glass ||
+                                      (cullMode == fShaderMode.Ice && fShaderIceSurfaceState.IsTransparent(material));
+                }
+                if (currentCull == 0 && transparentMode)
+                {
+                    EditorGUILayout.HelpBox(
+                        T("両面表示の透過は表裏が重なり、Overdraw増加と重なり部の描画順の乱れが起きやすくなります。必要な面だけに使用し、レンダーキューや透過ZWriteと併用してください。",
+                          "Double-sided transparency overlaps front and back faces, increasing overdraw and intra-object sorting artifacts. Use it only where needed, and combine it with the render queue or Transparent ZWrite."),
+                        MessageType.Warning);
+                }
+            }
+
             if (material.HasProperty("_FSTransparentZWrite"))
             {
                 EditorGUILayout.Space(3f);

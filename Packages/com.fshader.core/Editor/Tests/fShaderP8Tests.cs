@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -8,6 +9,41 @@ namespace fShader.Editor.Tests
 {
     public sealed class fShaderP8Tests
     {
+        [TestCaseSource(typeof(fShaderShaderCatalog), nameof(fShaderShaderCatalog.PublicShaderNames))]
+        public void PublicShadersExposeCullDefaultingToBack(string shaderName)
+        {
+            using (var material = new fShaderTestMaterial(Shader.Find(shaderName)))
+            {
+                Assert.That(material.Value.HasProperty("_Cull"), Is.True, shaderName);
+                Assert.That(material.Value.GetFloat("_Cull"), Is.EqualTo((float)CullMode.Back), shaderName);
+            }
+        }
+
+        [Test]
+        public void ForwardPassesBindCullToProperty()
+        {
+            foreach (string path in new[]
+            {
+                "Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteWater.shader",
+                "Packages/com.fshader.core/Runtime/Shaders/Lite/fShaderLiteStandard.shader",
+                "Packages/com.fshader.plus/Runtime/Shaders/Plus/fShaderPlusGlass.shader",
+                "Packages/com.fshader.plus/Runtime/Shaders/Plus/Hidden/fShaderPlusWaterScreenRefraction.shader"
+            })
+            {
+                string source = File.ReadAllText(path);
+                StringAssert.Contains("Cull [_Cull]", source, path);
+                StringAssert.DoesNotContain("Cull Back", source, path);
+            }
+        }
+
+        [Test]
+        public void DoubleSidedFlipsShadingNormalOnBackFaces()
+        {
+            string common = File.ReadAllText("Packages/com.fshader.core/Runtime/Shaders/Includes/fShaderCommon.cginc");
+            StringAssert.Contains("SV_IsFrontFace", common);
+            StringAssert.Contains("FSApplyDoubleSided", common);
+        }
+
         [TestCaseSource(typeof(fShaderShaderCatalog), nameof(fShaderShaderCatalog.PublicShaderNames))]
         public void PublicShadersExposeQueueOverride(string shaderName)
         {
