@@ -50,12 +50,12 @@ namespace fShader.Editor
             DrawVariantToolbar(materialEditor, ref properties, ref firstMaterial, edition, mode);
 
             EditorGUI.BeginChangeCheck();
+            DrawRendering(materialEditor, firstMaterial);
             DrawSurface(materialEditor, properties);
             DrawPBR(materialEditor, properties);
             fShaderP2Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
             fShaderP3Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
             fShaderP4Inspector.Draw(materialEditor, properties, edition, mode, firstMaterial, japanese);
-            DrawRendering(materialEditor, firstMaterial);
             DrawDiagnostics(materialEditor, properties, firstMaterial);
             materialEditor.EnableInstancingField();
             if (EditorGUI.EndChangeCheck())

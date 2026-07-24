@@ -2,7 +2,7 @@
 
 fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ice・Glass・Standardシェーダーファミリーです。軽量な`fShader Lite (Core)`と、LTCGI・追加表現を備える`fShader Plus`を提供します。
 
-## 最新版 1.2.3
+## 最新版 1.2.4
 
 - Unity 2022.3.22f1
 - VRChat SDK Worlds 3.10.4
@@ -11,7 +11,7 @@ fShaderは、VRChat World向けUnity Built-in Render Pipeline専用のWater・Ic
 - PlusのLTCGI依存: `at.pimaker.ltcgi >=1.6.3 <1.7.0`
 - Quest/Android、URP/HDRP、Deferredは対象外
 
-Unity 2022.3.22f1 + VRChat SDK 3.10.4でfShader 1.0.0はEditMode 73/73件に合格し、GitHub Public ReleaseとVPM一覧を公開済みです。1.0.1ではIce透過を追加しました。1.1.0では不透明PBRの新モード「Standard」と、各Edition・モードの設定とサンプルテクスチャをワンクリックで適用するテンプレート機能を追加しました。1.2.0ではレンダーキュー指定（カスタムレンダーキュー）、Water/GlassのTransparent ZWrite、テンプレートの書き出し・読み込みを追加し、Cold Mist作成ボタンの不具合を修正しました。1.2.1ではCold Mist作成ボタンを改善し、マテリアル編集中でもそのマテリアルを使うシーン内メッシュを自動検索して煙を生成できるようにしました。1.2.2ではCold Mist（冷気パーティクル）機能をオブジェクトサイズへの適合性の観点から削除しました。1.2.3では両面描画（Cull切替：両面/裏面のみ/表面のみ）を全モードへ追加し、裏面の陰影が正しく出るよう法線を自動反転します。
+Unity 2022.3.22f1 + VRChat SDK 3.10.4でfShader 1.0.0はEditMode 73/73件に合格し、GitHub Public ReleaseとVPM一覧を公開済みです。1.0.1ではIce透過を追加しました。1.1.0では不透明PBRの新モード「Standard」と、各Edition・モードの設定とサンプルテクスチャをワンクリックで適用するテンプレート機能を追加しました。1.2.0ではレンダーキュー指定（カスタムレンダーキュー）、Water/GlassのTransparent ZWrite、テンプレートの書き出し・読み込みを追加し、Cold Mist作成ボタンの不具合を修正しました。1.2.1ではCold Mist作成ボタンを改善し、マテリアル編集中でもそのマテリアルを使うシーン内メッシュを自動検索して煙を生成できるようにしました。1.2.2ではCold Mist（冷気パーティクル）機能をオブジェクトサイズへの適合性の観点から削除しました。1.2.3では両面描画（Cull切替：両面/裏面のみ/表面のみ）を全モードへ追加し、裏面の陰影が正しく出るよう法線を自動反転します。1.2.4ではInspectorの並びを微調整し、描画/レンダーキュー欄をシェーダー切替の直後（基本サーフェスの上）へ移動しました。
 
 ## 導入
 

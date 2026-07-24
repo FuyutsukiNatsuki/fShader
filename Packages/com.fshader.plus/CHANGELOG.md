@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.4 - 2026-07-24
+
+- Inspector layout tweak shared with Core (Rendering section moved above Surface). No Plus-specific behavior change.
+- Updated the Core dependency to 1.2.4.
+
 ## 1.2.3 - 2026-07-22
 
 - Added double-sided rendering (Cull selector) to all Plus shaders, including the Screen Refraction variants, with correct back-face normals.

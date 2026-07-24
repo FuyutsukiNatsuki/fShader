@@ -1,4 +1,4 @@
-# fShader 1.2.3 Shader Property Reference
+# fShader 1.2.4 Shader Property Reference
 
 公開Shader名とProperty名は1.x系の安定契約です。Propertyの直接操作は可能ですが、Toggleとlocal keyword、Screen Refraction用Hidden Shaderの同期が必要なため、通常はfShader Inspectorを使用してください。
 
@@ -136,4 +136,4 @@ Plus Water/Glass/Standardです。
 
 local keywordは`FSHADER_NORMALMAP`、`FSHADER_MASKMAP`、`FSHADER_HEIGHT`、`FSHADER_VERTEX_WAVE`、`FSHADER_MODE_DETAIL`、`FSHADER_RECEIVE_SHADOW`、`FSHADER_LTCGI`、`FSHADER_DEBUG`等です。Material Propertyだけをスクリプトで変更した場合は、Inspector相当のkeyword同期が必要です。
 
-fShader 1.2.3にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。
+fShader 1.2.4にはruntime C# APIやMonoBehaviour APIはありません。公開契約はShader名、Property名、Vertex Color channel、Editor menuです。

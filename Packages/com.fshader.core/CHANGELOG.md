@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4 - 2026-07-24
+
+- Reordered the Inspector so the Rendering / Render Queue section appears right after the shader-variant toolbar (above Surface), ahead of Surface, PBR, and mode features. Cosmetic layout only; no functional or shader change.
+
 ## 1.2.3 - 2026-07-22
 
 - Added double-sided rendering: every shader now exposes a Cull selector (Double-Sided / Back Only / Front Only) in the Rendering section, defaulting to Cull Back (front only, unchanged from before).

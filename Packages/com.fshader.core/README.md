@@ -1,4 +1,4 @@
-# fShader Lite (Core) 1.2.3
+# fShader Lite (Core) 1.2.4
 
 Unity 2022.3 Built-in Render PipelineとVRChat Worlds向けの軽量Water / Ice / Glass / Standard Shader、共通PBR、二言語Inspector、テンプレート、ARMH Packer、Mode Preset、レンダーキュー指定、透過ZWrite、Validation、Samplesを提供します。
 

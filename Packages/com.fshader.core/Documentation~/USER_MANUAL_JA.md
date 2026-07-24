@@ -1,8 +1,8 @@
-# fShader 1.2.3 User Manual
+# fShader 1.2.4 User Manual
 
 ## 1. 対応環境
 
-fShader 1.2.3はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
+fShader 1.2.4はUnity 2022.3.22f1、VRChat SDK Worlds 3.10.4、Built-in Render Pipeline、Forward Rendering、Linear Color Space、Windows PC向けVRChat Worldを正式対象とします。DesktopとPC VRの両方で利用できます。
 
 Quest/Android、URP/HDRP、Deferred Rendering、VRChat Avatarは正式対象外です。PlusはLTCGI 1.6.3以上1.7.0未満を必要とします。
 
@@ -57,7 +57,7 @@ Liteは2方向Wave Normal、最大2頂点波、Reflection Probe、Fresnel、Foam
 
 IceはFrost、Crack、Fake Subsurface/Back Light、Sparkleを備えます。1.0.1から`Transparent Ice`をONにするとOpacity、厚み、Frost、Crackを反映した半透明描画になります。既定のOpaqueは1.0.0互換で最軽量です。PlusではTransparent時のみ任意のScreen Refractionも利用できます。透明面の重なり、Mirror、広い画面占有では描画順とOverdrawに注意してください。
 
-> 1.2.3でCold Mist（冷気パーティクル）機能は削除されました。冷気を演出したい場合は、任意のParticleSystemを別途配置してください。
+> 1.2.4でCold Mist（冷気パーティクル）機能は削除されました。冷気を演出したい場合は、任意のParticleSystemを別途配置してください。
 
 ## 7. Glass
 
@@ -85,7 +85,7 @@ Water/Glassには「透過ZWrite（重なり対策） (Transparent ZWrite)」ト
 
 ## 10. Plus LTCGI
 
-Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.2.3では非対応です。
+Plus Water/Glass/Standardが対応します。公式LTCGI Controller、Screen、Emitterを配置し、LTCGI側ツールでAffected Renderersを更新してからMaterialのLTCGIをONにします。Iceは1.2.4では非対応です。
 
 LTCGIとScreen Refraction、Water 4 Wavesを同時に使う構成はHeavyです。まず個別にON/OFF測定してください。詳しくはPlusパッケージの`Documentation~/PLUS_GUIDE_JA.md`を参照してください。
 
